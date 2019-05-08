@@ -192,3 +192,23 @@ CREATE TABLE product_customer (
 INSERT INTO product_customer VALUES
 (1,1,4),(1,3,2),(2,3,1),(2,2,1);
 
+CREATE or replace FUNCTION check_if_circuits() returns trigger as
+$$
+DECLARE
+current integer;
+max integer;
+BEGIN
+current=NEW.parent_category;
+while(current is not null) loop
+	current=(select parent_category from categories where category_id=current);
+	if(current=NEW.category_id) then
+		return NULL;
+	end if;
+end loop;
+return NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE trigger prevent_circuits BEFORE INSERT OR UPDATE ON categories
+FOR EACH ROW EXECUTE PROCEDURE check_if_circuits();
+
