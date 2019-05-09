@@ -192,6 +192,26 @@ CREATE TABLE product_customer (
 INSERT INTO product_customer VALUES
 (1,1,4),(1,3,2),(2,3,1),(2,2,1);
 
+CREATE VIEW shop_ratings as select name,round(avg(rating),2) from customers_shops c join shops s on c.shop_id=s.shop_id group by s.shop_id;
+
+CREATE VIEW product_ratings as select name,round(avg(rating),2) from product_customer c join products s on c.product_id=s.product_id group by s.product_id;
+
+--not sure if useful
+CREATE or replace FUNCTION attributes(id integer) returns table(atr integer) as
+$$
+DECLARE
+current integer;
+BEGIN
+current=(select parent_category from categories where category_id=id);
+if(current is null) then
+	return query select attribute_id from attributes where category_id=id;
+else
+	return query select attribute_id from attributes where category_id=id union all select * from 
+attributes(current);
+end if;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE or replace FUNCTION check_if_circuits() returns trigger as
 $$
 DECLARE
@@ -211,4 +231,6 @@ $$ LANGUAGE plpgsql;
 
 CREATE trigger prevent_circuits BEFORE INSERT OR UPDATE ON categories
 FOR EACH ROW EXECUTE PROCEDURE check_if_circuits();
+
+
 
