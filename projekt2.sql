@@ -5,7 +5,7 @@ CREATE TABLE categories (
 	name                 varchar(100)  unique not NULL,
 	parent_category      integer,
 	min_age              integer DEFAULT 0,
-	CONSTRAINT fk_categories_categories FOREIGN KEY ( parent_category ) REFERENCES categories( category_id )  
+	CONSTRAINT fk_categories_categories FOREIGN KEY ( parent_category ) REFERENCES categories( category_id ) on delete cascade
  );
 
 --uzywam tej seq zeby pozniej nie trzeba bylo sprawdzac jakie jest najwieksze id
@@ -76,7 +76,7 @@ CREATE TABLE attributes (
 	category_id          integer not NULL,
 	unit                 varchar(50),
 	CONSTRAINT uni_att UNIQUE (name, category_id),
-	CONSTRAINT fk_attribute_categories FOREIGN KEY ( category_id ) REFERENCES categories( category_id )  
+	CONSTRAINT fk_attribute_categories FOREIGN KEY ( category_id ) REFERENCES categories( category_id ) on delete cascade
  );
 
 CREATE SEQUENCE seq_attribute_id INCREMENT BY 1 START WITH 1;
@@ -92,9 +92,9 @@ CREATE TABLE customers_shops (
 	shop_id              integer not NULL,
 	rating               integer not NULL,
 	CONSTRAINT uni_cus_shop UNIQUE(customer_id,shop_id),
-	CONSTRAINT fk_customers_shops_customers FOREIGN KEY ( customer_id ) REFERENCES customers( customer_id )  ,
+	CONSTRAINT fk_customers_shops_customers FOREIGN KEY ( customer_id ) REFERENCES customers( customer_id )  on delete cascade,
 	CONSTRAINT fk_customers_shops_shops FOREIGN KEY ( shop_id ) REFERENCES shops( shop_id ),
-	CHECK (rating<=5 AND rating>=0)
+	CHECK (rating<=5 AND rating>=0) on delete cascade
  );
 
 INSERT INTO customers_shops VALUES
@@ -106,7 +106,7 @@ CREATE TABLE products (
 	name                 varchar(100) not NULL unique,
 	description          varchar(200),
 	category_id          integer,
-	CONSTRAINT fk_products_categories FOREIGN KEY ( category_id ) REFERENCES categories( category_id ) 
+	CONSTRAINT fk_products_categories FOREIGN KEY ( category_id ) REFERENCES categories( category_id ) on delete cascade
  );
 
 CREATE SEQUENCE seq_product_id INCREMENT BY 1 START WITH 1;
@@ -127,8 +127,8 @@ CREATE TABLE attribute_product (
 	attribute_id         integer not NULL,
 	"value"              varchar(100) not NULL,
 	CONSTRAINT uni_att_pro UNIQUE (product_id,attribute_id),
-	CONSTRAINT fk_attribute_product_attribute FOREIGN KEY ( attribute_id ) REFERENCES attribute( attribute_id )  ,
-	CONSTRAINT fk_attribute_product_products FOREIGN KEY ( product_id ) REFERENCES products( product_id )  
+	CONSTRAINT fk_attribute_product_attribute FOREIGN KEY ( attribute_id ) REFERENCES attribute( attribute_id ) on delete cascade,
+	CONSTRAINT fk_attribute_product_products FOREIGN KEY ( product_id ) REFERENCES products( product_id )  on delete cascade
  );
 
 INSERT INTO attribute_product VALUES
@@ -148,8 +148,8 @@ CREATE TABLE shop_product (
 	price                numeric(10,2) CHECK (price>=0) not NULL,
 	amount               numeric CHECK (amount>=0),
 	CONSTRAINT uni_sho_pro UNIQUE (shop_id,product_id),
-	CONSTRAINT fk_shop_product_discount_product FOREIGN KEY ( product_id ) REFERENCES products( product_id )  ,
-	CONSTRAINT fk_shop_product_shops FOREIGN KEY ( shop_id ) REFERENCES shops( shop_id )  
+	CONSTRAINT fk_shop_product_discount_product FOREIGN KEY ( product_id ) REFERENCES products( product_id ) on delete cascade,
+	CONSTRAINT fk_shop_product_shops FOREIGN KEY ( shop_id ) REFERENCES shops( shop_id ) on delete cascade 
  );
 
 CREATE SEQUENCE seq_sho_pro INCREMENT 1 START WITH 1;
@@ -171,8 +171,8 @@ CREATE TABLE discount_shop_product (
 	discount_id          integer not NULL,
 	discount_product_id  integer not NULL,
 	CONSTRAINT uni_dis_sho_pro UNIQUE (discount_id,discount_product_id),
-	CONSTRAINT fk_discount_product_discounts FOREIGN KEY ( discount_id ) REFERENCES discounts( discount_id ) ,
-	CONSTRAINT fk_discount_product_shop_product FOREIGN KEY ( discount_product_id ) REFERENCES shop_product( shop_product_id ) 
+	CONSTRAINT fk_discount_product_discounts FOREIGN KEY ( discount_id ) REFERENCES discounts( discount_id ) on delete cascade,
+	CONSTRAINT fk_discount_product_shop_product FOREIGN KEY ( discount_product_id ) REFERENCES shop_product( shop_product_id ) on delete cascade
  );
 
 INSERT INTO discount_shop_product VALUES
@@ -185,8 +185,8 @@ CREATE TABLE product_customer (
 	rating               integer  NOT NULL,
 	CONSTRAINT uni_pro_cus UNIQUE (product_id,customer_id),
 	CHECK (rating<=5 AND rating>=0),
-	CONSTRAINT fk_product_customer_products FOREIGN KEY ( product_id ) REFERENCES products( product_id )  ,
-	CONSTRAINT fk_product_customer_customers FOREIGN KEY ( customer_id ) REFERENCES customers( customer_id )  
+	CONSTRAINT fk_product_customer_products FOREIGN KEY ( product_id ) REFERENCES products( product_id )  on delete cascade,
+	CONSTRAINT fk_product_customer_customers FOREIGN KEY ( customer_id ) REFERENCES customers( customer_id ) on delete cascade
  );
 
 INSERT INTO product_customer VALUES
