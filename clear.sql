@@ -17,3 +17,9 @@ DROP SEQUENCE IF EXISTS seq_shop_id;
 DROP SEQUENCE IF EXISTS seq_discounts_id;
 DROP SEQUENCE IF EXISTS seq_customer_id;
 DROP SEQUENCE IF EXISTS seq_categories_id;
+
+DROP TRIGGER prevent_circuits;
+
+DROP FUNCTION check_if_circuits();
+DROP FUNCTION attributes(id integer);
+
