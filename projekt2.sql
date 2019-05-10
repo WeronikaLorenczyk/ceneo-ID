@@ -232,5 +232,11 @@ $$ LANGUAGE plpgsql;
 CREATE trigger prevent_circuits BEFORE INSERT OR UPDATE ON categories
 FOR EACH ROW EXECUTE PROCEDURE check_if_circuits();
 
+CREATE or replace FUNCTION prices(id numeric) returns table( shop integer, price_ numeric, amount_ numeric) as 
+$$
+BEGIN
+return query select shop_id, price, amount from shop_product s where product_id=id;
+end
+$$ LANGUAGE plpgsql;
 
 
