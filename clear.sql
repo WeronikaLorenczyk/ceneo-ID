@@ -23,4 +23,7 @@ DROP TRIGGER prevent_circuits;
 DROP FUNCTION check_if_circuits();
 DROP FUNCTION attributes(id integer);
 DROP FUNCTION prices(id numeric);
+DROP FUNCTION check_if_att();
+DROP FUNCTION check_children();
+DROP FUNCTION check_parents();
 

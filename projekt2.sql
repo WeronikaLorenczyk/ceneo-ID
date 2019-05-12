@@ -127,7 +127,7 @@ CREATE TABLE attribute_product (
 	attribute_id         integer not NULL,
 	"value"              varchar(100) not NULL,
 	CONSTRAINT uni_att_pro UNIQUE (product_id,attribute_id),
-	CONSTRAINT fk_attribute_product_attribute FOREIGN KEY ( attribute_id ) REFERENCES attribute( attribute_id ) on delete cascade,
+	CONSTRAINT fk_attribute_product_attribute FOREIGN KEY ( attribute_id ) REFERENCES attributes( attribute_id ) on delete cascade,
 	CONSTRAINT fk_attribute_product_products FOREIGN KEY ( product_id ) REFERENCES products( product_id )  on delete cascade
  );
 
@@ -192,6 +192,12 @@ CREATE TABLE product_customer (
 INSERT INTO product_customer VALUES
 (1,1,4),(1,3,2),(2,3,1),(2,2,1);
 
+
+
+
+
+
+
 CREATE VIEW shop_ratings as select name,round(avg(rating),2) from customers_shops c join shops s on c.shop_id=s.shop_id group by s.shop_id;
 
 CREATE VIEW product_ratings as select name,round(avg(rating),2) from product_customer c join products s on c.product_id=s.product_id group by s.product_id;
@@ -239,4 +245,57 @@ return query select shop_id, price, amount from shop_product s where product_id=
 end
 $$ LANGUAGE plpgsql;
 
+CREATE or replace function shop_rating(id integer) returns numeric as
+$$
+begin 
+return (select round(avg(rating),2) from customers_shops c join shops s on c.shop_id=s.shop_id where shop_id=id);
+end
+$$ LANGUAGE plpgsql;
 
+CREATE or replace function item_rating(id integer) returns numeric as
+$$
+begin 
+return (select round(avg(rating),2) from customers_products c join products s on c.product_id=s.product_id where product_id=id);
+end
+$$ LANGUAGE plpgsql;
+
+CREATE or replace function check_parents() returns trigger as
+$$
+declare
+i record;
+begin
+for i in select * from attributes where attribute_id in (select * from attributes(NEW.category_id)) loop
+	if(i.name=NEW.name) then
+		return NULL;
+	end if;
+end loop;  
+return NEW;
+end
+$$ LANGUAGE plpgsql;
+
+CREATE trigger parents BEFORE INSERT OR UPDATE ON attributes
+FOR EACH ROW EXECUTE PROCEDURE check_parents();
+
+CREATE or replace function check_children() returns trigger as
+$$
+begin
+delete from attributes where name=NEW.name and NEW.attribute_id in (select * from attributes(category_id)) and not NEW.attribute_id=attribute_id;
+return NEW;
+end
+$$ LANGUAGE plpgsql;
+
+CREATE trigger children AFTER INSERT OR UPDATE ON attributes
+FOR EACH ROW EXECUTE PROCEDURE check_children();
+
+create or replace function check_if_att() returns trigger as
+$$
+begin
+if(NEW.attribute_id in (select * from attributes((select category_id from products where product_id=NEW.product_id)))) then
+	return NEW;
+end if;
+return NULL;
+end
+$$ LANGUAGE plpgsql;
+
+CREATE trigger att BEFORE INSERT OR UPDATE ON attribute_product
+FOR EACH ROW EXECUTE PROCEDURE check_if_att();
