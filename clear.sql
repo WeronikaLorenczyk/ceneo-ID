@@ -1,3 +1,5 @@
+DROP SCHEMA if exists ceneo;
+
 DROP TABLE IF EXISTS product_customer CASCADE; 
 DROP TABLE IF EXISTS discount_shop_product CASCADE; 
 DROP TABLE IF EXISTS shop_product CASCADE; 

@@ -1,4 +1,4 @@
---CREATE SCHEMA ceneo; nie wiem co to robi ani czy tego chcemy
+CREATE SCHEMA ceneo;
 
 CREATE TABLE categories ( 
 	category_id          integer  PRIMARY KEY,
@@ -8,7 +8,6 @@ CREATE TABLE categories (
 	CONSTRAINT fk_categories_categories FOREIGN KEY ( parent_category ) REFERENCES categories( category_id ) on delete cascade
  );
 
---uzywam tej seq zeby pozniej nie trzeba bylo sprawdzac jakie jest najwieksze id
 CREATE SEQUENCE seq_categories_id INCREMENT BY 1 START WITH 1;
 
 INSERT INTO categories VALUES
@@ -32,7 +31,6 @@ CREATE TABLE customers (
 
 CREATE SEQUENCE seq_customer_id INCREMENT BY 1 START WITH 1;
 
---bedzie hash potem, mozemy go napisac juz w javie bo te w sql mi nie chca dzialac :/
 INSERT INTO customers VALUES
 (nextval('seq_customer_id'),'a','a',1,'Krakow'),
 (nextval('seq_customer_id'),'b','b',1,'Katowice'),
@@ -202,7 +200,6 @@ CREATE VIEW shop_ratings as select name,round(avg(rating),2) from customers_shop
 
 CREATE VIEW product_ratings as select name,round(avg(rating),2) from product_customer c join products s on c.product_id=s.product_id group by s.product_id;
 
---not sure if useful
 CREATE or replace FUNCTION attributes(id integer) returns table(atr integer) as
 $$
 DECLARE
