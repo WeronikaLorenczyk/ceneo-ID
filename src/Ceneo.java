@@ -6,9 +6,7 @@ import javafx.stage.Stage;
 
 public class Ceneo extends Application {
 
-    Scene scene;
-    Stage stage;
-    int customerId;
+
 
     public static void main(String[] args) {
 
@@ -17,17 +15,11 @@ public class Ceneo extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        stage=primaryStage;
         primaryStage.setTitle("Ceneo");
-        scene=new loginScene().getLoginScene(this);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        SceneHandler sh=new SceneHandler(primaryStage);
+       sh.changeScene(new LoginScene(null,sh));
     }
 
-    void changeScene(Scene s){
-        scene=s;
-        stage.setScene(s);
-        stage.show();
-    }
+
 
 }

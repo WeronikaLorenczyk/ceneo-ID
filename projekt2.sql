@@ -1,10 +1,9 @@
 CREATE SCHEMA ceneo;
 
 CREATE TABLE categories ( 
-	category_id          integer  PRIMARY KEY,
+	category_id          integer  PRIMARY KEY DEFAULT nextval('seq_categories_id'),
 	name                 varchar(100)  unique not NULL,
 	parent_category      integer,
-	min_age              integer DEFAULT 0,
 	CONSTRAINT fk_categories_categories FOREIGN KEY ( parent_category ) REFERENCES categories( category_id ) on delete cascade
  );
 
@@ -22,10 +21,9 @@ INSERT INTO categories VALUES
 
 
 CREATE TABLE customers ( 
-	customer_id          integer  PRIMARY KEY,
+	customer_id          integer  PRIMARY KEY DEFAULT nextval('seq_customer_id'),
 	login                varchar(50) unique not NULL,
 	"password"           varchar(50) not NULL,
-	age                  integer,
 	"location"           varchar(50)  
  );
 
@@ -38,7 +36,7 @@ INSERT INTO customers VALUES
 (nextval('seq_customer_id'),'d','d',25,'Krakow');
 
 CREATE TABLE discounts ( 
-	discount_id          integer  PRIMARY KEY,
+	discount_id          integer  PRIMARY KEY DEFAULT nextval('seq_discounts_id'),
 	date_from            date not NULL,
 	date_to              date,
 	percent              numeric(4,2) DEFAULT 0, 
@@ -55,7 +53,7 @@ INSERT INTO discounts VALUES
 
 
 CREATE TABLE shops ( 
-	shop_id              integer  PRIMARY KEY,
+	shop_id              integer  PRIMARY KEY DEFAULT nextval('seq_shop_id'),
 	"location"           varchar(50) ,
 	name                 varchar(100) not NULL
  );
@@ -69,7 +67,7 @@ INSERT INTO shops VALUES
 
 
 CREATE TABLE attributes ( 
-	attribute_id         integer  PRIMARY KEY ,
+	attribute_id         integer  PRIMARY KEY DEFAULT nextval('seq_attribute_id'),
 	name                 varchar(100) not NULL,
 	category_id          integer not NULL,
 	unit                 varchar(50),
@@ -91,8 +89,8 @@ CREATE TABLE customers_shops (
 	rating               integer not NULL,
 	CONSTRAINT uni_cus_shop UNIQUE(customer_id,shop_id),
 	CONSTRAINT fk_customers_shops_customers FOREIGN KEY ( customer_id ) REFERENCES customers( customer_id )  on delete cascade,
-	CONSTRAINT fk_customers_shops_shops FOREIGN KEY ( shop_id ) REFERENCES shops( shop_id ),
-	CHECK (rating<=5 AND rating>=0) on delete cascade
+	CONSTRAINT fk_customers_shops_shops FOREIGN KEY ( shop_id ) REFERENCES shops( shop_id ) on delete cascade,
+	CHECK (rating<=5 AND rating>=0) 
  );
 
 INSERT INTO customers_shops VALUES
@@ -100,7 +98,7 @@ INSERT INTO customers_shops VALUES
 
 
 CREATE TABLE products ( 
-	product_id           integer  PRIMARY KEY,
+	product_id           integer  PRIMARY KEY DEFAULT nextval('seq_product_id'),
 	name                 varchar(100) not NULL unique,
 	description          varchar(200),
 	category_id          integer,
@@ -140,7 +138,7 @@ INSERT INTO attribute_product VALUES
 (9,1,'metal');
 
 CREATE TABLE shop_product ( 
-	shop_product_id		integer PRIMARY KEY,
+	shop_product_id		integer PRIMARY KEY DEFAULT nextval('seq_sho_pro'),
 	shop_id              integer not NULL,
 	product_id           integer not NULL,
 	price                numeric(10,2) CHECK (price>=0) not NULL,

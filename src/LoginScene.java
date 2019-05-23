@@ -1,21 +1,40 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-public class loginScene {
+import java.io.IOException;
 
-    Ceneo ceneo;
 
-    Scene getLoginScene(Ceneo ceneo){
-        this.ceneo=ceneo;
+public class LoginScene extends SceneController {
+
+    LoginScene(SceneController prev,SceneHandler sh){
+       super(prev,sh);
+       fxmlPath="sample/sample.fxml";
+    }
+
+    @Override
+    Scene getScene(){
+
+        //mialam problemy z scenBuilderem wiec zostawilam tak jak bylo ale to ma sie ladowac z tych fxml
+        // powinien byc ten kod zakomentowany zamiast calej reszty + obsluga przyciskow z tej scene
+
+        /*Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource(fxmlPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new Scene(root, 800, 600);*/
+
         Text text1 = new Text("Login");
         Text text2 = new Text("Password");
 
@@ -61,8 +80,9 @@ public class loginScene {
                     textFieldPassword.clear();
                 }
                 else{
-                    ceneo.customerId=userId;
-                        ceneo.changeScene(new SearchScene().getSearchScene());
+                   // ceneo.customerId=userId;
+                       // ceneo.changeScene(new SearchScene().getSearchScene());
+                    sh.changeScene(new SearchScene(null,sh));
                 }
             }
         });

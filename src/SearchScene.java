@@ -9,9 +9,15 @@ import javafx.scene.text.Text;
 
 //wrzucilam tu cokolwiek z internetu zeby widziec jak sie dodaje te wszystkie rodzaje pol
 
-public class SearchScene {
+public class SearchScene extends SceneController{
 
-    Scene getSearchScene(){
+    SearchScene(SceneController prev, SceneHandler sh){
+        super(prev,sh);
+    }
+
+
+@Override
+    Scene getScene(){
         Text nameLabel = new Text("Name");
         TextField nameText = new TextField();
         //Label for date of birth
