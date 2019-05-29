@@ -1,3 +1,5 @@
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 
 
@@ -34,7 +36,7 @@ public class DatabaseHandler {
     }
 
 
-    //nie ma destruktorow wiec trzeba zamknac po kazdym urzyciu!!!!
+    //nie ma destruktorow wiec trzeba zamknac po kazdym użyciu!!!!
     void close(){
         try {
             stmt.close();
@@ -67,20 +69,28 @@ public class DatabaseHandler {
     //-------------funkcje zwracajace id
 
     //zwraca id lub -1 jezeli nie ma danego login+haslo
-     int getUserId(String login, String password){
-        //haslo i login nie moze zawierac spacji ani ; zeby ktos nam nie wpisal hasla drop table
-        if(!properWord(login) || !properPassword(password))
-            return -1;
+     int getUserId(String login, String password) throws InvalidKeySpecException, NoSuchAlgorithmException {
+         //haslo i login nie moze zawierac spacji ani ; zeby ktos nam nie wpisal hasla drop table
+         if (!properWord(login) || !properPassword(password))
+             return -1;
          try {
-             ResultSet rs = stmt.executeQuery( "SELECT customer_id FROM customers WHERE login='"+login+"' AND password='"+password+"';" );
-             if(rs.next())
+             ResultSet rs = stmt.executeQuery("SELECT customer_id,password FROM customers WHERE login='" + login + "';");
+
+             if (rs.next()) {
+                 String p = rs.getString(2);
+                 if (!Hasher.validatePassword(password, p)) {
+                     System.out.println("Wrong login or password!");
+                     return -1;
+                 }
                  return rs.getInt(1);
+             }
              return -1;
          } catch (SQLException e) {
-             e.printStackTrace();return -1;
+             e.printStackTrace();
+             return -1;
          }
-
      }
+
 
      //---------------funkcje dodajace krotki
 
@@ -90,7 +100,7 @@ public class DatabaseHandler {
             return -1;
          if(login.indexOf(' ')>=0 || login.indexOf(';')>=0 || password.indexOf(' ')>=0 || password.indexOf(';')>=0 || !location.matches("[ a-zA-Z0-9./]+"))
              return -1;
-        String sqlTask="INSERT INTO customes (login, password, location) VALUES ("+login+", "+password+", "+location+");";
+        String sqlTask="INSERT INTO customers (login, password, age, location) VALUES ('"+login+"', '"+password+"',121, '"+location+"');";
          try {
              stmt.executeUpdate(sqlTask);
          } catch (SQLException e) {

@@ -19,7 +19,7 @@ public class FXMLScene extends SceneController implements Initializable {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource(fxml));
-            //System.out.println(root.getClass());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
