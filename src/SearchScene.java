@@ -7,6 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 //wrzucilam tu cokolwiek z internetu zeby widziec jak sie dodaje te wszystkie rodzaje pol
 
 public class SearchScene extends SceneController{
@@ -138,4 +141,6 @@ public class SearchScene extends SceneController{
         Scene scene = new Scene(gridPane);
         return scene;
     }
+
+
 }

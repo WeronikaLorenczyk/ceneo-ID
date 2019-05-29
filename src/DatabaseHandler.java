@@ -59,8 +59,8 @@ public class DatabaseHandler {
 
     //mozemy ustawic dowolne ograniczenia na haslo
     boolean properPassword(String password){
-        if(password==null || password.length()<6 || password.indexOf(' ')>=0 || password.indexOf(';')>=0)
-            return false;
+        /*if(password==null || password.length()<6 || password.indexOf(' ')>=0 || password.indexOf(';')>=0)
+            return false;*/
         return true;
     }
 
