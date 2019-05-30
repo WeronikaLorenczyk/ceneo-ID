@@ -21,9 +21,10 @@
             <PasswordField fx:id="repeatPassword" />
             <CheckBox fx:id="age" mnemonicParsing="false" text="I'm 18 or older" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:" />
-            <ChoiceBox prefWidth="150.0" fx:id="locationn" />
-            <Button mnemonicParsing="false" text="Confirm" fx:id="confirm" onAction="#sign" />
+            <ChoiceBox fx:id="location" prefWidth="150.0" />
+            <Button fx:id="confirm" mnemonicParsing="false" text="Confirm" />
          </children>
       </VBox>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Back" fx:id="back" onAction="#back" />
    </children>
 </AnchorPane>

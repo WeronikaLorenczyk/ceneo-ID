@@ -3,6 +3,7 @@ import javafx.scene.control.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 
 public class SignUpController {
     @FXML
@@ -15,9 +16,11 @@ public class SignUpController {
     CheckBox age;
     @FXML
     Button confirm;
+    @FXML
+    Button back;
 
     @FXML
-    void sign() throws InvalidKeySpecException, NoSuchAlgorithmException {
+    void sign() throws InvalidKeySpecException, NoSuchAlgorithmException, SQLException {
         if(password.getText().compareTo(repeatPassword.getText())!=0){
             didntPass();
             return;
@@ -34,6 +37,12 @@ public class SignUpController {
         //System.out.println(Hasher.validatePassword("b",hashedPassword));
         DatabaseHandler databaseHandler = new DatabaseHandler();
         System.out.println(databaseHandler.addUser(login.getText(),hashedPassword,"Krakow"));
+        back();
+    }
+
+    @FXML
+    void back(){
+        SceneHandler.current.changeScene(SceneHandler.curr.prev);
     }
 
     private void didntPass(){

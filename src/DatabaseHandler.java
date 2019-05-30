@@ -1,15 +1,25 @@
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!tu jest wszystko nieprzetestowane i pisane na kolanie, poogarniam to ale juz nie mialam czasu, nawet tu nie patrz
 
 public class DatabaseHandler {
 
+
     private static final String url = "jdbc:postgresql://localhost/postgres";
     private static final String user = "postgres";
     private static final String password="postgres";
+
+    static PreparedStatement getId;
+    static PreparedStatement newUser;
+    static PreparedStatement newShopRating;
+    static PreparedStatement newShop;
+    static PreparedStatement newProductRating;
+    static PreparedStatement search;
 
     public static Connection connect() {
         Connection conn = null;
@@ -18,6 +28,16 @@ public class DatabaseHandler {
             System.out.println("Connected to the PostgreSQL server successfully.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+        try {
+            getId=conn.prepareStatement("SELECT customer_id,password FROM customers WHERE login=?");
+            newUser=conn.prepareStatement("INSERT INTO customers (login, password, age, location) VALUES (?,?,121,?)");
+            newShopRating =conn.prepareStatement("INSERT INTO product_customer (product_id, customer_id,rating) VALUES (?,?,?);");
+            newShop=conn.prepareStatement("INSERT INTO shops (location, name) VALUES (?,?)");
+            newProductRating =conn.prepareStatement("INSERT INTO product_customer (product_id, customer_id,rating) VALUES (?,?,?);");
+            search=conn.prepareStatement("SELECT name, item_rating(product_id) from products where is_of_cat(category_id,?) and coalesce(item_rating(product_id),1)>? order by ?;");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return conn;
@@ -74,8 +94,9 @@ public class DatabaseHandler {
          if (!properWord(login) || !properPassword(password))
              return -1;
          try {
-             ResultSet rs = stmt.executeQuery("SELECT customer_id,password FROM customers WHERE login='" + login + "';");
-
+             //ResultSet rs = stmt.executeQuery("SELECT customer_id,password FROM customers WHERE login='" + login + "';");
+             getId.setString(1,login);
+             ResultSet rs = getId.executeQuery();
              if (rs.next()) {
                  String p = rs.getString(2);
                  if (!Hasher.validatePassword(password, p)) {
@@ -95,19 +116,23 @@ public class DatabaseHandler {
      //---------------funkcje dodajace krotki
 
     //zwraca id lub -1 gdy nie moze go dodac
-     int addUser(String login, String password, String location){
+     int addUser(String login, String password, String location) throws SQLException {
         if(login==null || password==null || location==null)
             return -1;
-         if(login.indexOf(' ')>=0 || login.indexOf(';')>=0 || password.indexOf(' ')>=0 || password.indexOf(';')>=0 || !location.matches("[ a-zA-Z0-9./]+"))
-             return -1;
-        String sqlTask="INSERT INTO customers (login, password, age, location) VALUES ('"+login+"', '"+password+"',121, '"+location+"');";
+         /*if(login.indexOf(' ')>=0 || login.indexOf(';')>=0 || password.indexOf(' ')>=0 || password.indexOf(';')>=0 || !location.matches("[ a-zA-Z0-9./]+"))
+             return -1;*/
+         //String sqlTask="INSERT INTO customers (login, password, age, location) VALUES ('"+login+"', '"+password+"',121, '"+location+"');";
+         newUser.setString(1,login);
+         newUser.setString(2,password);
+         newUser.setString(3,location);
          try {
-             stmt.executeUpdate(sqlTask);
+             newUser.executeUpdate();
          } catch (SQLException e) {
              e.printStackTrace();
          }
          try {
-             ResultSet rs = stmt.executeQuery( "SELECT customer_id FROM customers WHERE login='"+login+"';" );
+             getId.setString(1,login);
+             ResultSet rs = getId.executeQuery();
              if(rs.next())
                  return rs.getInt(1);
              return -1;
@@ -143,9 +168,17 @@ public class DatabaseHandler {
 
     //zwraca id lub -1 gdy nie moze go dodac
      void addProductCustomer(int productId, int customerId, int rating){
-         String sqlTask="INSERT INTO product_customer (product_id, customer_id,rating) VALUES ("+productId+", "+customerId+", "+rating+");";
+         //String sqlTask="INSERT INTO product_customer (product_id, customer_id,rating) VALUES ("+productId+", "+customerId+", "+rating+");";
          try {
-             stmt.executeUpdate(sqlTask);
+             newProductRating.setInt(1,productId);
+             newProductRating.setInt(2,customerId);
+             newProductRating.setInt(3,rating);
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+         try {
+             newProductRating.executeUpdate();
+             //stmt.executeUpdate(sqlTask);
          } catch (SQLException e) {
              e.printStackTrace();
          }
@@ -154,9 +187,16 @@ public class DatabaseHandler {
 
     //zwraca id lub -1 gdy nie moze go dodac
     void addShop (String name, String location){
-        String sqlTask="INSERT INTO shops (location, name) VALUES ("+location+", "+name+");";
+        //String sqlTask="INSERT INTO shops (location, name) VALUES ("+location+", "+name+");";
         try {
-            stmt.executeUpdate(sqlTask);
+            newShopRating.setString(1,name);
+            newShopRating.setString(2,location);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            newShopRating.executeUpdate();
+            //stmt.executeUpdate(sqlTask);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -165,12 +205,56 @@ public class DatabaseHandler {
 
     //zwraca id lub -1 gdy nie moze go dodac
     void addCustomerShop(int customerId, int shopId, int rating){
-        String sqlTask="INSERT INTO customers_shops (customer_id, shop_id,rating) VALUES ("+customerId+", "+shopId+", "+rating+");";
+        //String sqlTask="INSERT INTO customers_shops (customer_id, shop_id,rating) VALUES ("+customerId+", "+shopId+", "+rating+");";
         try {
-            stmt.executeUpdate(sqlTask);
+            newShopRating.setInt(1,customerId);
+            newShopRating.setInt(2,shopId);
+            newShopRating.setInt(3,rating);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        try {
+            //stmt.executeUpdate(sqlTask);
+            newShopRating.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    List<String> getCategories() throws SQLException {
+        ResultSet r=null;
+        try {
+             r = stmt.executeQuery("SELECT name from categories");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<String> a =new LinkedList<>();
+        while (r.next()){
+            a.add(r.getString(1));
+        }
+        return a;
+    }
+
+    List<String> getLocations() throws SQLException {
+        ResultSet r=null;
+        try {
+            r = stmt.executeQuery("SELECT location from shops");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<String> a =new LinkedList<>();
+        while (r.next()){
+            a.add(r.getString(1));
+        }
+        return a;
+    }
+
+    ResultSet search(int category, String location, String sort, String attribute, float lowestR) throws SQLException {
+        search.setInt(1,category);
+        search.setFloat(2,lowestR);
+        search.setString(3,sort);
+        return search.executeQuery();
     }
 
 

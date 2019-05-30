@@ -188,7 +188,7 @@ CREATE TABLE product_customer (
  );
 
 INSERT INTO product_customer VALUES
-(1,1,4),(1,3,2),(2,3,1),(2,2,1);
+(1,5,4),(1,3,2),(2,3,1),(2,5,1);
 
 
 
@@ -252,7 +252,7 @@ $$ LANGUAGE plpgsql;
 CREATE or replace function item_rating(id integer) returns numeric as
 $$
 begin 
-return (select round(avg(rating),2) from customers_products c join products s on c.product_id=s.product_id where product_id=id);
+return (select round(avg(rating),2) from product_customer c join products s on c.product_id=s.product_id where c.product_id=id and c.rating is not null);
 end
 $$ LANGUAGE plpgsql;
 
@@ -296,3 +296,20 @@ $$ LANGUAGE plpgsql;
 
 CREATE trigger att BEFORE INSERT OR UPDATE ON attribute_product
 FOR EACH ROW EXECUTE PROCEDURE check_if_att();
+
+create or replace function is_of_cat(cat integer, par integer) returns bool as $$
+declare
+parent integer ;
+begin
+if( cat=par) then
+	return true;
+end if;
+parent=(select parent_category from categories where category_id=cat);
+if(parent is null) then
+	return false;
+end if;
+return is_of_cat(parent, par);
+end;
+$$ LANGUAGE plpgsql;
+end
+$$ LANGUAGE plpgsql;
