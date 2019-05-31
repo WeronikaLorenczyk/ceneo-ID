@@ -297,19 +297,20 @@ $$ LANGUAGE plpgsql;
 CREATE trigger att BEFORE INSERT OR UPDATE ON attribute_product
 FOR EACH ROW EXECUTE PROCEDURE check_if_att();
 
-create or replace function is_of_cat(cat integer, par integer) returns bool as $$
+create or replace function is_of_cat(cat varchar, par varchar) returns bool as $$
 declare
 parent integer ;
+parentv varchar;
 begin
 if( cat=par) then
 	return true;
 end if;
-parent=(select parent_category from categories where category_id=cat);
+parent=(select parent_category from categories where name=cat);
 if(parent is null) then
 	return false;
 end if;
-return is_of_cat(parent, par);
+parentv=(select name from categories where category_id=parent);
+
+return is_of_cat(parentv, par);
 end;
-$$ LANGUAGE plpgsql;
-end
 $$ LANGUAGE plpgsql;

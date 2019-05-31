@@ -35,7 +35,7 @@ public class DatabaseHandler {
             newShopRating =conn.prepareStatement("INSERT INTO product_customer (product_id, customer_id,rating) VALUES (?,?,?);");
             newShop=conn.prepareStatement("INSERT INTO shops (location, name) VALUES (?,?)");
             newProductRating =conn.prepareStatement("INSERT INTO product_customer (product_id, customer_id,rating) VALUES (?,?,?);");
-            search=conn.prepareStatement("SELECT name, item_rating(product_id) from products where is_of_cat(category_id,?) and coalesce(item_rating(product_id),1)>? order by ?;");
+            search=conn.prepareStatement("SELECT name, product_id, item_rating(product_id) from products p where is_of_cat((select name from categories c where c.category_id=p.category_id),?) and coalesce(item_rating(product_id),1)>? order by ?;");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -250,8 +250,8 @@ public class DatabaseHandler {
         return a;
     }
 
-    ResultSet search(int category, String location, String sort, String attribute, float lowestR) throws SQLException {
-        search.setInt(1,category);
+    ResultSet searchCategories(String category, String sort, float lowestR) throws SQLException {
+        search.setString(1,category);
         search.setFloat(2,lowestR);
         search.setString(3,sort);
         return search.executeQuery();

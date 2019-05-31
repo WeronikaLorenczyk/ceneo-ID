@@ -8,14 +8,17 @@ import javafx.scene.text.Text;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 public class SearchController {
     @FXML
     ChoiceBox<String> Category;
     @FXML
     ChoiceBox<String> SortBy;
-    @FXML
-    ChoiceBox<String> Location;
     @FXML
     ChoiceBox<String> Attribute;
     @FXML
@@ -44,39 +47,96 @@ public class SearchController {
         result[6]=new SearchResult(name7,category7,price7,rating7);
         result[7]=new SearchResult(name8,category8,price8,rating8);
 
+        minimalRating.setMin(0);
+        minimalRating.setMax(5.0);
+        minimalRating.setValue(0);
+        minimalRating.setShowTickLabels(true);
+        minimalRating.setShowTickMarks(true);
+        minimalRating.setMajorTickUnit(1.0);
+     /*   minimalRating.setMinorTickCount();
+        minimalRating.setBlockIncrement(10);*/
+
         db=new DatabaseHandler();
 
         try {
             Category.getItems().addAll(db.getCategories());
-            Location.getItems().addAll(db.getLocations());
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
+    @FXML
+    void setAtt(){
+
+    }
+
+
     static String a[] = {"lowest Price", "highest Price", "highest Rating"};
 
-
-    String cat;
-    String sort;
-    String location;
-    String attribute;
+    @FXML
+    void prev(){
+        if(pageNum==0){
+            return;
+        }
+        pageNum--;
+        fill();
+    }
 
     @FXML
-    void SetCategory(){
+    void next(){
+        if(pageNum*8+8>=result.length){
+            return;
+        }
+        pageNum++;
+        fill();
+    }
+
+    String sort;
+
+
+    @FXML
+    void setSort(){
         sort=SortBy.getValue();
     }
 
     @FXML
+    void fill(){
+        /*search();*/
+        int i=0;
+        for(;i<min(results.size()-pageNum*8,8);i++){                  //terrible as far as computation speed goes, might change later
+            result[i].set(results.get(i+pageNum*8).name,"",results.get(i+pageNum*8).rating,5);
+        }
+    }
+
+    static class Res{
+        public String name;
+        public int id;
+        public float rating;
+        public Res(String name, int id, float rating){
+            this.name=name;
+            this.id=id;
+            this.rating=rating;
+        }
+    }
+
+    List<Res> results = new LinkedList<>();
+    int pageNum;
+
+
+    @FXML
     void search(){
         try {
-            ResultSet r =db.search(1,"Krakow","product_id", "1",0.0f); //only some of the cryteria work
+            ResultSet r =db.searchCategories(Category.getValue(),"product_id", (float) minimalRating.getValue());
+            results.clear();
+            pageNum=0;
             while(r.next()){
-                System.out.println(r.getString(1) + " " + r.getFloat(2));
+                //System.out.println(r.getString(1) + " " + r.getFloat(2));
+                results.add(new Res(r.getString(1),r.getInt(2),r.getFloat(3)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        fill();
     }
 }
