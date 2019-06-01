@@ -85,7 +85,9 @@ public class SearchController {
 
     @FXML
     void next(){
-        if(pageNum*8+8>=result.length){
+        System.out.println("A");
+        if(pageNum*8+8>=results.size()){
+            System.out.println("B");
             return;
         }
         pageNum++;
@@ -106,6 +108,9 @@ public class SearchController {
         int i=0;
         for(;i<min(results.size()-pageNum*8,8);i++){                  //terrible as far as computation speed goes, might change later
             result[i].set(results.get(i+pageNum*8).name,"",results.get(i+pageNum*8).rating,5);
+        }
+        for(;i<8;i++){
+            result[i].clear();
         }
     }
 
@@ -131,7 +136,7 @@ public class SearchController {
             results.clear();
             pageNum=0;
             while(r.next()){
-                //System.out.println(r.getString(1) + " " + r.getFloat(2));
+                System.out.println(r.getString(1) + " " + r.getFloat(3));
                 results.add(new Res(r.getString(1),r.getInt(2),r.getFloat(3)));
             }
         } catch (SQLException e) {

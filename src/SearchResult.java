@@ -20,4 +20,11 @@ public class SearchResult {
         price.setText(Float.toString(p));
     }
 
+    public void clear(){
+        name.setText("");
+        attribute.setText("");
+        rating.setText("");
+        price.setText("");
+    }
+
 }

@@ -28,7 +28,7 @@ public class SignUpController {
         String passwordT=password.getText();
         String hashedPassword=null;
         try {
-            hashedPassword=Hasher.generateStorngPasswordHash(passwordT);
+            hashedPassword=Hasher.generateStoringPasswordHash(passwordT);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }

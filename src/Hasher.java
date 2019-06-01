@@ -5,22 +5,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
-public class Hasher {
+public class Hasher { //code taken from the Internet, not mine
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException
-    {
-        String  originalPassword = "password";
-        String generatedSecuredPasswordHash = generateStorngPasswordHash(originalPassword);
-        System.out.println(generatedSecuredPasswordHash);
 
-        boolean matched = validatePassword("password", generatedSecuredPasswordHash);
-        System.out.println(matched);
-
-        matched = validatePassword("password1", generatedSecuredPasswordHash);
-        System.out.println(matched);
-    }
-
-    public static String generateStorngPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
+    public static String generateStoringPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         int iterations = 1000;
         char[] chars = password.toCharArray();
