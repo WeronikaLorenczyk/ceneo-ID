@@ -102,7 +102,6 @@ public class DatabaseHandler {
              if (rs.next()) {
                  String p = rs.getString(2);
                  if (!Hasher.validatePassword(password, p)) {
-                     System.out.println("Wrong login or password!");
                      return -1;
                  }
                  return rs.getInt(1);

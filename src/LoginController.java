@@ -17,7 +17,13 @@ public class LoginController {
     PasswordField passwordF;
     @FXML
     Button signUp;
-   //Nwm jak rozwiazać stąd zmienić scenę
+    @FXML
+    Text wrong;
+
+    public void initialize(){
+        wrong.setManaged(false);
+        wrong.setVisible(false);
+    }
 
     @FXML
     void loginCheck(){
@@ -34,8 +40,8 @@ public class LoginController {
         System.out.println(userId+" "+login+" "+password);
         dbHandler.close();
         if(userId==-1){
-            Text textWrongLog = new Text("Wrong login or password");
-            System.out.println("Wrong login or password");
+            wrong.setManaged(true);
+            wrong.setVisible(true);
             loginF.clear();
             passwordF.clear();
         }
