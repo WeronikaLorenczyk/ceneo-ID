@@ -68,10 +68,63 @@ public class SearchController {
     }
 
     @FXML
-    void setAtt(){
-
+    void setCat(){
+        int x=0;
+        ResultSet r = null;
+        try {
+            r = db.stmt.executeQuery("Select category_id from categories where name ='"+ Category.getValue() +"';");
+            r.next();
+            x=r.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(x);
+        Attribute.getItems().addAll(db.getAttributes(x));
     }
 
+    @FXML
+    void pc1(){
+        priceComparison(0);
+    }
+
+    @FXML
+    void pc2(){
+        priceComparison(1);
+    }
+
+    @FXML
+    void pc3(){
+        priceComparison(2);
+    }
+
+    @FXML
+    void pc4(){
+        priceComparison(3);
+    }
+
+    @FXML
+    void pc5(){
+        priceComparison(4);
+    }
+
+    @FXML
+    void pc6(){
+        priceComparison(5);
+    }
+
+    @FXML
+    void pc7(){
+        priceComparison(6);
+    }
+
+    @FXML
+    void pc8(){
+        priceComparison(7);
+    }
+
+    void priceComparison(int id){
+        SceneHandler.current.changeScene(new PriceCompScene(SceneHandler.curr,SceneHandler.current, "PriceComp.fxml",results.get(id).id));
+    }
 
     static String a[] = {"lowest Price", "highest Price", "highest Rating"};
 

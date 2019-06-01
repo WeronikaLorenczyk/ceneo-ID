@@ -1315,3 +1315,6 @@ parentv=(select name from categories where category_id=parent);
 return is_of_cat(parentv, par);
 end;
 $$ LANGUAGE plpgsql;
+
+
+

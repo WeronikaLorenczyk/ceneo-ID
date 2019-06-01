@@ -10,6 +10,8 @@ import java.util.List;
 public class DatabaseHandler {
 
 
+
+
     private static final String url = "jdbc:postgresql://localhost/postgres";
     private static final String user = "postgres";
     private static final String password="postgres";
@@ -250,6 +252,19 @@ public class DatabaseHandler {
         return a;
     }
 
+    List<String > getAttributes(int id){
+        List<String> ret=new LinkedList<>();
+        try {
+            ResultSet r = stmt.executeQuery("SELECT name from attributes where attribute_id in(select * from attributes("+id+"));");
+            while (r.next()){
+                ret.add(r.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
     ResultSet searchCategories(String category, String sort, float lowestR) throws SQLException {
         search.setString(1,category);
         search.setFloat(2,lowestR);
@@ -257,5 +272,7 @@ public class DatabaseHandler {
         return search.executeQuery();
     }
 
-
+    ResultSet priceComp(int id) throws SQLException {
+        return stmt.executeQuery("Select sh.name, sh.location, s.price from shop_product s join shops sh on sh.shop_id= s.shop_id where s.product_id="+id+"order by s.price;");
+    }
 }
