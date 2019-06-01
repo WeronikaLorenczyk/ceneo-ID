@@ -7,11 +7,9 @@ import java.sql.SQLException;
 
 public class SignUpController {
     @FXML
-    TextField login;
+    TextField login, locationn;
     @FXML
     PasswordField password, repeatPassword;
-    @FXML
-    ChoiceBox<String> locationn;
     @FXML
     CheckBox age;
     @FXML
@@ -36,7 +34,7 @@ public class SignUpController {
         //System.out.println(Hasher.validatePassword(passwordT,hashedPassword));
         //System.out.println(Hasher.validatePassword("b",hashedPassword));
         DatabaseHandler databaseHandler = new DatabaseHandler();
-        System.out.println(databaseHandler.addUser(login.getText(),hashedPassword,"Krakow"));
+        databaseHandler.addUser(login.getText(),hashedPassword,locationn.getText());
         back();
     }
 
