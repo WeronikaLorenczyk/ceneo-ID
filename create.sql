@@ -52,20 +52,22 @@ INSERT INTO discounts VALUES
 (nextval('seq_discounts_id'),'2011-03-12','2011-03-30',5),
 (nextval('seq_discounts_id'),'2015-03-12','2015-03-30',10),(nextval('seq_discounts_id'),'2014-03-12','2014-03-30',50);
 
-
-
-CREATE TABLE shops ( 
-	shop_id              integer  PRIMARY KEY,
-	"location"           varchar(50) ,
-	name                 varchar(100) not NULL
- );
-
 CREATE SEQUENCE seq_shop_id INCREMENT BY 1 START WITH 1;
 
+CREATE TABLE shops ( 
+	shop_id              integer  PRIMARY KEY DEFAULT nextval('seq_shop_id'),
+	"location"           varchar(50) ,
+	name                 varchar(100) not NULL,
+	login			varchar(100) not NULL,
+	password		varchar(200) not NULL
+ );
+
+
+
 INSERT INTO shops VALUES
-(nextval('seq_shop_id'),'Krakow','sklep a'),
-(nextval('seq_shop_id'),'Krakow','sklep b'),
-(nextval('seq_shop_id'),'Warszawa','sklep c');
+(nextval('seq_shop_id'),'Krakow','sklep a','a','a'),
+(nextval('seq_shop_id'),'Krakow','sklep b','b','b'),
+(nextval('seq_shop_id'),'Warszawa','sklep c','c','c');
 
 
 CREATE TABLE attributes ( 
