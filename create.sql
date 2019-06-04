@@ -1142,8 +1142,10 @@ INSERT INTO attribute_product VALUES
 (6,4,'1000'),
 (9,1,'metal');
 
+CREATE SEQUENCE seq_sho_pro INCREMENT 1 START WITH 1;
+
 CREATE TABLE shop_product ( 
-	shop_product_id		integer PRIMARY KEY,
+	shop_product_id		integer PRIMARY KEY default nextval('seq_sho_pro'),
 	shop_id              integer not NULL,
 	product_id           integer not NULL,
 	price                numeric(10,2) CHECK (price>=0) not NULL,
@@ -1152,7 +1154,7 @@ CREATE TABLE shop_product (
 	CONSTRAINT fk_shop_product_shops FOREIGN KEY ( shop_id ) REFERENCES shops( shop_id ) on delete cascade 
  );
 
-CREATE SEQUENCE seq_sho_pro INCREMENT 1 START WITH 1;
+
 
 INSERT INTO shop_product VALUES
 (nextval('seq_sho_pro'),1,1,3.5),

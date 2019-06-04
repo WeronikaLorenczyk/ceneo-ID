@@ -24,11 +24,13 @@ public class PrceCompController {
     @FXML
     Text loc1,loc2,loc3,loc4,name1,name2,name3,name4,disc1,disc2,disc3,disc4,price1,price2,price3,price4;
     @FXML
-    Text addLabel;
+    Text addLabel,description,wrong,setPrice;
     @FXML
     Button add;
     @FXML
     ChoiceBox rating;
+    @FXML
+            TextField price;
 
     PriceCompResult[]display = new PriceCompResult[4];
     List<Ret> rets = new LinkedList<>();
@@ -41,6 +43,13 @@ public class PrceCompController {
 
         add.setManaged(SceneHandler.data.ifShop);
         add.setVisible(SceneHandler.data.ifShop);
+        wrong.setManaged(false);
+        wrong.setVisible(false);
+        price.setManaged(SceneHandler.data.ifShop);
+        price.setVisible(SceneHandler.data.ifShop);
+        setPrice.setManaged(SceneHandler.data.ifShop);
+        setPrice.setVisible(SceneHandler.data.ifShop);
+
 
         rating.setManaged(!SceneHandler.data.ifShop);
         rating.setVisible(!SceneHandler.data.ifShop);
@@ -62,10 +71,12 @@ public class PrceCompController {
             while (rs.next()){
                 rets.add(new Ret(rs.getString(1),rs.getString(2),0.0f,rs.getFloat(3)));
             }
+            description.setText(databaseHandler.getProductDesc(PriceCompScene.id));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         fill();
+
 
     }
 
@@ -90,6 +101,27 @@ public class PrceCompController {
             this.loc=loc;
             this.disc=disc;
             this.price=price;
+        }
+    }
+
+    @FXML
+    void addRating(){
+        databaseHandler.addProductRating(PriceCompScene.id,SceneHandler.data.userId,Integer.valueOf(rating.getValue().toString()));
+    }
+
+    @FXML
+    void add(){
+        wrong.setManaged(false);
+        wrong.setVisible(false);
+        boolean done=false;
+        try{
+            done=databaseHandler.addShopProduct(SceneHandler.data.userId,PriceCompScene.id,Float.valueOf(price.getText()));
+        }
+        catch(Exception e){}
+
+        if(!done){
+            wrong.setManaged(true);
+            wrong.setVisible(true);
         }
     }
 

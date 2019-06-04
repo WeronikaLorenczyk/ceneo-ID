@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -96,10 +97,10 @@
       </ScrollPane>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="back" />
       <Text layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
-      <Text fx:id="descText" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="addLabel" layoutX="14.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add this product to your shop" />
-      <Button fx:id="add" layoutX="12.0" layoutY="268.0" mnemonicParsing="false" text="Add" />
-      <ChoiceBox fx:id="rating" layoutX="12.0" layoutY="268.0" prefWidth="150.0">
+      <Text fx:id="description" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text fx:id="addLabel" layoutX="17.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add this product to your shop" />
+      <Button fx:id="add" layoutX="17.0" layoutY="322.0" mnemonicParsing="false" onAction="#add" text="Add" />
+      <ChoiceBox fx:id="rating" layoutX="17.0" layoutY="322.0" onAction="#addRating" prefWidth="150.0">
       <items>
          <FXCollections fx:factory="observableArrayList">
             <String fx:value="1" />
@@ -110,5 +111,8 @@
          </FXCollections>
       </items>
    </ChoiceBox>
+      <Text fx:id="setPrice" layoutX="22.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set price:" />
+      <TextField fx:id="price" layoutX="17.0" layoutY="251.0" promptText="1.00" />
+      <Text fx:id="wrong" fill="#f50101" layoutX="196.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wrong price" />
    </children>
 </AnchorPane>

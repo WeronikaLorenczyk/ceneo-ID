@@ -7,13 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!tu jest wszystko nieprzetestowane i pisane na kolanie, poogarniam to ale juz nie mialam czasu, nawet tu nie patrz
-
 public class DatabaseHandler {
 
-
-
-
+    
     private static final String url = "jdbc:postgresql://localhost/postgres";
     private static final String user = "postgres";
     private static final String password="postgres";
@@ -23,9 +19,9 @@ public class DatabaseHandler {
     static PreparedStatement newUser;
     static PreparedStatement newShopRating;
     static PreparedStatement newShop;
-    static PreparedStatement newProductRating;
     static PreparedStatement search;
     static PreparedStatement newProduct;
+    static PreparedStatement newShopProduct;
 
     public static Connection connect() {
         Connection conn = null;
@@ -41,9 +37,9 @@ public class DatabaseHandler {
             newUser=conn.prepareStatement("INSERT INTO customers (login, password, age, location) VALUES (?,?,121,?);");
             newShopRating =conn.prepareStatement("INSERT INTO product_customer (product_id, customer_id,rating) VALUES (?,?,?);");
             newShop=conn.prepareStatement("INSERT INTO shops (name,location,login,password) VALUES (?,?,?,?);");
-            newProductRating =conn.prepareStatement("INSERT INTO product_customer (product_id, customer_id,rating) VALUES (?,?,?);");
             search=conn.prepareStatement("SELECT name, product_id, item_rating(product_id) from products p where is_of_cat((select name from categories c where c.category_id=p.category_id),?) and coalesce(item_rating(product_id),1)>=? order by ?;");
             newProduct=conn.prepareStatement("INSERT INTO products(name,description,category_id) VALUES (?,?,?);");
+            newShopProduct=conn.prepareStatement("INSERT INTO shop_product (shop_id, product_id, price) VALUES (?,?,?);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -188,25 +184,19 @@ public class DatabaseHandler {
      }
 
 
-    //zwraca id lub -1 gdy nie moze go dodac
-    public  boolean addProductCustomer(int productId, int customerId, int rating){
-         //String sqlTask="INSERT INTO product_customer (product_id, customer_id,rating) VALUES ("+productId+", "+customerId+", "+rating+");";
-         try {
-             newProductRating.setInt(1,productId);
-             newProductRating.setInt(2,customerId);
-             newProductRating.setInt(3,rating);
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
-         try {
-             newProductRating.executeUpdate();
-             //stmt.executeUpdate(sqlTask);
-         } catch (SQLException e) {
-             e.printStackTrace();
-             return false;
-         }
-         return true;
-     }
+    public  void addProductRating(int productId, int customerId, int rating){
+        try {
+            stmt.executeUpdate("INSERT INTO product_customer (product_id, customer_id,rating) VALUES ("+productId+","+customerId+","+rating+");");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                stmt.executeUpdate("UPDATE product_customer set rating="+rating+" WHERE customer_id="+customerId+" AND product_id="+productId+";");
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+    }
 
 
 
@@ -227,6 +217,32 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+        return true;
+    }
+
+
+    public boolean addShopProduct (int shopId, int productId, float price){
+        //String sqlTask="INSERT INTO shops (location, name) VALUES ("+location+", "+name+");";
+        try {
+
+            newShopProduct.setInt(1,shopId);
+            newShopProduct.setInt(2,productId);
+            newShopProduct.setFloat(3,price);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        try {
+            newShopProduct.executeUpdate();
+        } catch (SQLException e) {
+            try {
+                stmt.executeUpdate("UPDATE shop_product set price="+price+" WHERE shop_id="+shopId+" AND product_id="+productId+";");
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+                return false;
+            }
         }
         return true;
     }
@@ -301,6 +317,12 @@ public class DatabaseHandler {
 
     public ResultSet priceComp(int id) throws SQLException {
         return stmt.executeQuery("Select sh.name, sh.location, s.price from shop_product s join shops sh on sh.shop_id= s.shop_id where s.product_id="+id+"order by s.price;");
+    }
+
+    public String getProductDesc(int id) throws SQLException {
+        ResultSet r= stmt.executeQuery("Select description from products where product_id="+id);
+        r.next();
+        return r.getString(1);
     }
 
 }
