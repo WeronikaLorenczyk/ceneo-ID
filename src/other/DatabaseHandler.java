@@ -310,11 +310,18 @@ public class DatabaseHandler {
     }
 
     public  ResultSet searchCategories(String category, String sort, float lowestR, String attributeVal, String attribute) throws SQLException {
+        if(category==null){
+            return stmt.executeQuery("SELECT name, product_id, item_rating(product_id) from products p where coalesce(item_rating(product_id),0)>=" + lowestR + "order by " + sort);
+        }
+        if (attribute==null || attributeVal==null){
+            return stmt.executeQuery("SELECT name, product_id, item_rating(product_id) from products p where is_of_cat((select name from categories c where c.category_id=p.category_id),'"+category+"') and coalesce(item_rating(product_id),0)>= " +lowestR+ "order by " + sort);
+        }
         search.setString(1,category);
         search.setFloat(2,lowestR);
         search.setString(3,attributeVal);
         search.setString(4,attribute);
         search.setString(5,sort);
+        System.out.println(search);
         //System.out.println(search);
         return search.executeQuery();
     }
