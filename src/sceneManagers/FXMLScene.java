@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 public class FXMLScene extends SceneController implements Initializable {
     String fxml;
+    Scene ret;
     public FXMLScene(SceneController prev, SceneHandler sh, String fxmlpath) {
         super(prev, sh);
         this.fxml=fxmlpath;
@@ -19,17 +20,20 @@ public class FXMLScene extends SceneController implements Initializable {
 
     @Override
     public Scene getScene() {
-        Parent root = null;
-        URL c=null;
-        try {
-           c =getClass().getResource(fxml);
-            System.out.println(c);
-            root = FXMLLoader.load(c);
+        if(ret==null) {
+            Parent root = null;
+            URL c = null;
+            try {
+                c = getClass().getResource(fxml);
+                System.out.println(c);
+                root = FXMLLoader.load(c);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ret= new Scene(root, 800, 600);
         }
-        return new Scene(root, 800, 600);
+        return ret;
     }
 
     @Override
