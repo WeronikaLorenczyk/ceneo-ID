@@ -6,6 +6,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 import other.DatabaseHandler;
+import sceneManagers.FXMLScene;
 import sceneManagers.SceneHandler;
 
 import java.sql.ResultSet;
@@ -34,12 +35,17 @@ public class SearchController {
     Text rating1,rating2,rating3,rating4,rating5,rating6,rating7,rating8;
     @FXML
     Button CP1, CP2, CP3, CP4,CP5, CP6, CP7,CP8;
+    @FXML
+    Button addProduct;
 
     DatabaseHandler db;
 
     SearchResult[]result=new SearchResult[8];
 
     public void initialize(){
+        addProduct.setManaged(SceneHandler.data.ifShop);
+        addProduct.setVisible(SceneHandler.data.ifShop);
+
         result[0]=new SearchResult(name1,category1,rating1,CP1);
         result[1]=new SearchResult(name2,category2,rating2,CP2);
         result[2]=new SearchResult(name3,category3,rating3,CP3);
@@ -189,5 +195,14 @@ public class SearchController {
             e.printStackTrace();
         }
         fill();
+    }
+    @FXML
+    void addProduct(){
+        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/AddProduct.fxml"));
+    }
+
+    @FXML
+    void signout(){
+        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/Login.fxml"));
     }
 }

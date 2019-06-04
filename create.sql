@@ -58,8 +58,8 @@ CREATE TABLE shops (
 	shop_id              integer  PRIMARY KEY DEFAULT nextval('seq_shop_id'),
 	"location"           varchar(50) ,
 	name                 varchar(100) not NULL,
-	login			varchar(100) not NULL,
-	password		varchar(200) not NULL
+	login			varchar(50) unique not NULL,
+	"password"		varchar(200) not NULL
  );
 
 
@@ -1147,7 +1147,6 @@ CREATE TABLE shop_product (
 	shop_id              integer not NULL,
 	product_id           integer not NULL,
 	price                numeric(10,2) CHECK (price>=0) not NULL,
-	amount               numeric CHECK (amount>=0),
 	CONSTRAINT uni_sho_pro UNIQUE (shop_id,product_id),
 	CONSTRAINT fk_shop_product_discount_product FOREIGN KEY ( product_id ) REFERENCES products( product_id ) on delete cascade,
 	CONSTRAINT fk_shop_product_shops FOREIGN KEY ( shop_id ) REFERENCES shops( shop_id ) on delete cascade 
@@ -1156,16 +1155,16 @@ CREATE TABLE shop_product (
 CREATE SEQUENCE seq_sho_pro INCREMENT 1 START WITH 1;
 
 INSERT INTO shop_product VALUES
-(nextval('seq_sho_pro'),1,1,3.5,100),
-(nextval('seq_sho_pro'),2,1,5,200),
-(nextval('seq_sho_pro'),3,1,7,100),
-(nextval('seq_sho_pro'),1,2,3.5,100),
-(nextval('seq_sho_pro'),1,3,3.5,100),
-(nextval('seq_sho_pro'),2,4,3.5,100),
-(nextval('seq_sho_pro'),1,5,3.5,100),
-(nextval('seq_sho_pro'),1,6,3.5,100),
-(nextval('seq_sho_pro'),3,7,3.5,100),
-(nextval('seq_sho_pro'),3,8,3.5,100);
+(nextval('seq_sho_pro'),1,1,3.5),
+(nextval('seq_sho_pro'),2,1,5),
+(nextval('seq_sho_pro'),3,1,7),
+(nextval('seq_sho_pro'),1,2,3.5),
+(nextval('seq_sho_pro'),1,3,3.5),
+(nextval('seq_sho_pro'),2,4,3.5),
+(nextval('seq_sho_pro'),1,5,3.5),
+(nextval('seq_sho_pro'),1,6,3.5),
+(nextval('seq_sho_pro'),3,7,3.5),
+(nextval('seq_sho_pro'),3,8,3.5);
 
 
 CREATE TABLE discount_shop_product ( 

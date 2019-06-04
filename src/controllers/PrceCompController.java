@@ -1,6 +1,8 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import other.DatabaseHandler;
@@ -21,6 +23,12 @@ public class PrceCompController {
 
     @FXML
     Text loc1,loc2,loc3,loc4,name1,name2,name3,name4,disc1,disc2,disc3,disc4,price1,price2,price3,price4;
+    @FXML
+    Text addLabel;
+    @FXML
+    Button add;
+    @FXML
+    ChoiceBox rating;
 
     PriceCompResult[]display = new PriceCompResult[4];
     List<Ret> rets = new LinkedList<>();
@@ -30,6 +38,17 @@ public class PrceCompController {
     DatabaseHandler databaseHandler;
 
     public void initialize(){
+
+        add.setManaged(SceneHandler.data.ifShop);
+        add.setVisible(SceneHandler.data.ifShop);
+
+        rating.setManaged(!SceneHandler.data.ifShop);
+        rating.setVisible(!SceneHandler.data.ifShop);
+
+        if(!SceneHandler.data.ifShop)
+            addLabel.setText("Your rating");
+
+
         display[0]=new PriceCompResult(name1,loc1,disc1,price1);
         display[1]=new PriceCompResult(name2,loc2,disc2,price2);
         display[2]=new PriceCompResult(name3,loc3,disc3,price3);
@@ -47,6 +66,7 @@ public class PrceCompController {
             e.printStackTrace();
         }
         fill();
+
     }
 
     void fill(){

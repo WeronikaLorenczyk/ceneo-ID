@@ -14,12 +14,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchController">
+<AnchorPane prefHeight="400.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchController">
    <children>
-      <VBox layoutX="27.0" layoutY="22.0" prefHeight="358.0" prefWidth="239.0">
+      <VBox layoutX="25.0" layoutY="77.0" prefHeight="274.0" prefWidth="224.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category" />
-            <ChoiceBox fx:id="Category" prefWidth="150.0" onAction="#setCat" />
+            <ChoiceBox fx:id="Category" onAction="#setCat" prefWidth="150.0" />
 
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SortBy" />
             <ChoiceBox fx:id="SortBy" onAction="#setSort" prefWidth="150.0">
@@ -32,13 +32,14 @@
                </items>
              </ChoiceBox>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Minimal Rating" />
+            <Button fx:id="CP1" mnemonicParsing="false" onAction="#pc1" text="Compare Prices" />
             <Slider fx:id="minimalRating" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Attribute" />
             <ChoiceBox fx:id="Attribute" prefWidth="150.0" />
             <Button mnemonicParsing="false" onAction="#search" text="Search" />
          </children>
       </VBox>
-      <ScrollPane layoutX="293.0" layoutY="28.0" prefHeight="374.0" prefWidth="307.0">
+      <ScrollPane layoutX="293.0" layoutY="27.0" prefHeight="374.0" prefWidth="307.0">
          <content>
             <VBox prefHeight="800.0" prefWidth="283.0">
                <children>
@@ -57,7 +58,7 @@
                         <Text fx:id="name1" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="1" />
                         <Text fx:id="category1" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="2" />
                         <Text fx:id="rating1" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                        <Button mnemonicParsing="false" text="Compare Prices" GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="CP1" onAction="#pc1"/>
+                        <Button fx:id="CP1" mnemonicParsing="false" onAction="#pc1" text="More Info" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="Object2">
@@ -74,7 +75,7 @@
                         <Text fx:id="name2" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Text fx:id="category2" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="1" />
                         <Text fx:id="rating2" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" text="Compare Prices" GridPane.columnIndex="1" GridPane.rowIndex="2"  fx:id="CP2" onAction="#pc2"/>
+                        <Button fx:id="CP2" mnemonicParsing="false" onAction="#pc2" text="More Info" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="Object3">
@@ -91,7 +92,7 @@
                         <Text fx:id="name3" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Text fx:id="category3" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="1" />
                         <Text fx:id="rating3" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" text="Compare Prices" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="CP3" onAction="#pc3"/>
+                        <Button fx:id="CP3" mnemonicParsing="false" onAction="#pc3" text="More Info" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="Object4">
@@ -108,7 +109,7 @@
                         <Text fx:id="name4" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Text fx:id="category4" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="1" />
                         <Text fx:id="rating4" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" text="Compare Prices" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="CP4" onAction="#pc4"/>
+                        <Button fx:id="CP4" mnemonicParsing="false" onAction="#pc4" text="More Info" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="Object5">
@@ -125,7 +126,7 @@
                         <Text fx:id="name5" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Text fx:id="category5" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="1" />
                         <Text fx:id="rating5" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" text="Compare Prices" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="CP5" onAction="#pc5"/>
+                        <Button fx:id="CP5" mnemonicParsing="false" onAction="#pc5" text="More Info" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="Object6">
@@ -142,7 +143,7 @@
                         <Text fx:id="name6" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Text fx:id="category6" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="1" />
                         <Text fx:id="rating6" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" text="Compare Prices" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="CP6" onAction="#pc6"/>
+                        <Button fx:id="CP6" mnemonicParsing="false" onAction="#pc6" text="More Info" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="Object7">
@@ -159,7 +160,7 @@
                         <Text fx:id="name7" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Text fx:id="category7" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="1" />
                         <Text fx:id="rating7" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" text="Compare Prices" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="CP7" onAction="#pc1"/>
+                        <Button fx:id="CP7" mnemonicParsing="false" onAction="#pc1" text="More Info" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="Object8">
@@ -176,7 +177,7 @@
                         <Text fx:id="name8" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Text fx:id="category8" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="1" />
                         <Text fx:id="rating8" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" text="Compare Prices" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="CP8" onAction="#pc8"/>
+                        <Button fx:id="CP8" mnemonicParsing="false" onAction="#pc8" text="More Info" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                </children>
@@ -186,5 +187,7 @@
       <HBox layoutX="-296.0" layoutY="-14.0" prefHeight="100.0" prefWidth="200.0" />
       <Button layoutX="293.0" layoutY="1.0" mnemonicParsing="false" onAction="#prev" text="prev" />
       <Button layoutX="538.0" layoutY="1.0" mnemonicParsing="false" onAction="#next" text="next" />
+      <Button fx:id="addProduct" layoutX="99.0" layoutY="315.0" mnemonicParsing="false" onAction="#addProduct" text="Add Product" />
+      <Button fx:id="signout" layoutX="25.0" layoutY="23.0" mnemonicParsing="false" onAction="#signout" text="Sign out" />
    </children>
 </AnchorPane>

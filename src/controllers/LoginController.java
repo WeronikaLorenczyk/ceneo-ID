@@ -65,9 +65,10 @@ public class LoginController {
         }
         else{
             System.out.println("logged in!");
+            System.out.println(userId);
+            SceneHandler.data.userId=userId;
+            SceneHandler.data.ifShop=false;
             SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/SearchScene.fxml"));
-            // ceneo.customerId=userId;
-            // ceneo.changeScene(new SearchScene().getSearchScene());
         }
     }
 
@@ -99,9 +100,9 @@ public class LoginController {
         }
         else{
             System.out.println("logged in!");
+            SceneHandler.data.userId=shopId;
+            SceneHandler.data.ifShop=true;
             SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/SearchScene.fxml"));
-            // ceneo.customerId=userId;
-            // ceneo.changeScene(new SearchScene().getSearchScene());
         }
     }
 

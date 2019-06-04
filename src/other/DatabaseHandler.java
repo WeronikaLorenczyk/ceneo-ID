@@ -25,6 +25,7 @@ public class DatabaseHandler {
     static PreparedStatement newShop;
     static PreparedStatement newProductRating;
     static PreparedStatement search;
+    static PreparedStatement newProduct;
 
     public static Connection connect() {
         Connection conn = null;
@@ -42,6 +43,7 @@ public class DatabaseHandler {
             newShop=conn.prepareStatement("INSERT INTO shops (name,location,login,password) VALUES (?,?,?,?);");
             newProductRating =conn.prepareStatement("INSERT INTO product_customer (product_id, customer_id,rating) VALUES (?,?,?);");
             search=conn.prepareStatement("SELECT name, product_id, item_rating(product_id) from products p where is_of_cat((select name from categories c where c.category_id=p.category_id),?) and coalesce(item_rating(product_id),1)>=? order by ?;");
+            newProduct=conn.prepareStatement("INSERT INTO products(name,description,category_id) VALUES (?,?,?);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -153,7 +155,7 @@ public class DatabaseHandler {
 
 
      //---------------funkcje dodajace krotki
-
+//TODO mozna dodawac puste nazwy, wszystkie pola sa wymagane nawet jak w bazie nie sa
     //zwraca czy dodano
     public boolean addUser(String login, String password, String location) throws SQLException {
         if(login==null || password==null || location==null)
@@ -171,27 +173,18 @@ public class DatabaseHandler {
      }
 
     //zwraca id lub -1 gdy nie moze go dodac
-    public  int addProduct(String name, String description, int categoryId){
+    public  boolean addProduct(String name, String description, String category) throws SQLException {
 
-         if(name==null || description==null )
-             return -1;
-         //trzeba napisac przy dodawaniu opisu jakie znaki sa dozwolone. Chyba ze pozwalamy na wiecej ale to moze nie byc bezpieczne
-         if( !name.matches("[ a-zA-Z0-9./]+") || !description.matches("[ a-zA-Z0-9./,]+"))
-             return -1;
-         String sqlTask="INSERT INTO products (name, description,category_id) VALUES ("+name+", "+description+", "+categoryId+");";
-         try {
-             stmt.executeUpdate(sqlTask);
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
-         try {
-             ResultSet rs = stmt.executeQuery( "SELECT product_id FROM products WHERE name='"+name+"' AND description='"+description+"' AND category='"+categoryId+"';" );
-             if(rs.next())
-                 return rs.getInt(1);
-             return -1;
-         } catch (SQLException e) {
-             e.printStackTrace();return -1;
-         }
+         newProduct.setString(1,name);
+        newProduct.setString(2,description);
+        newProduct.setInt(3,getCatId(category));
+        try {
+            newProduct.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
      }
 
 
