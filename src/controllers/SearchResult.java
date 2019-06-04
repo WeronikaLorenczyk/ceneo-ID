@@ -14,11 +14,13 @@ public class SearchResult {
         this.rating=rating;
         rating.setText("");
         this.compareP=compareP;
+        compareP.setVisible(false);
         compareP.setManaged(false);
     }
 
     public void set(String n, String a, float r, float p){
         compareP.setManaged(true);
+        compareP.setVisible(true);
         name.setText(n);
         attribute.setText(a);
         rating.setText(Float.toString(r));
@@ -29,6 +31,7 @@ public class SearchResult {
         attribute.setText("");
         rating.setText("");
         compareP.setManaged(false);
+        compareP.setVisible(false);
     }
 
 }

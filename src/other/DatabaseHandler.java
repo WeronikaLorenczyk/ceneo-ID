@@ -37,7 +37,8 @@ public class DatabaseHandler {
             newUser=conn.prepareStatement("INSERT INTO customers (login, password, age, location) VALUES (?,?,121,?);");
             newShopRating =conn.prepareStatement("INSERT INTO product_customer (product_id, customer_id,rating) VALUES (?,?,?);");
             newShop=conn.prepareStatement("INSERT INTO shops (name,location,login,password) VALUES (?,?,?,?);");
-            search=conn.prepareStatement("SELECT name, product_id, item_rating(product_id) from products p where is_of_cat((select name from categories c where c.category_id=p.category_id),?) and coalesce(item_rating(product_id),1)>=? order by ?;");
+            search=conn.prepareStatement("SELECT name, product_id, item_rating(product_id) from products p where is_of_cat((select name from categories c where c.category_id=p.category_id),?) and coalesce(item_rating(product_id),0)>=? " +
+                    " and ? in (select value from attribute_product where product_id=p.product_id and attribute_id=(select attribute_id from attributes where name=?)) order by ?;");
             newProduct=conn.prepareStatement("INSERT INTO products(name,description,category_id) VALUES (?,?,?);");
             newShopProduct=conn.prepareStatement("INSERT INTO shop_product (shop_id, product_id, price) VALUES (?,?,?);");
         } catch (SQLException e) {
@@ -308,10 +309,13 @@ public class DatabaseHandler {
         return ret;
     }
 
-    public  ResultSet searchCategories(String category, String sort, float lowestR) throws SQLException {
+    public  ResultSet searchCategories(String category, String sort, float lowestR, String attributeVal, String attribute) throws SQLException {
         search.setString(1,category);
         search.setFloat(2,lowestR);
-        search.setString(3,sort);
+        search.setString(3,attributeVal);
+        search.setString(4,attribute);
+        search.setString(5,sort);
+        //System.out.println(search);
         return search.executeQuery();
     }
 
@@ -325,4 +329,16 @@ public class DatabaseHandler {
         return r.getString(1);
     }
 
+    public List<String> getAttVal(String id){
+        List<String> ret=new LinkedList<>();
+        try {
+            ResultSet r = stmt.executeQuery("SELECT distinct value from attribute_product where attribute_id=(Select attribute_id from attributes where name='"+id+"');");
+            while (r.next()){
+                ret.add(r.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }

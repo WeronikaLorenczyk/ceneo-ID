@@ -23,7 +23,7 @@ public class SearchController {
     @FXML
     ChoiceBox<String> SortBy;
     @FXML
-    ChoiceBox<String> Attribute;
+    ChoiceBox<String> Attribute, AttributeVal;
     @FXML
     Slider minimalRating;
 
@@ -64,6 +64,9 @@ public class SearchController {
      /*   minimalRating.setMinorTickCount();
         minimalRating.setBlockIncrement(10);*/
 
+        AttributeVal.setVisible(false);
+        AttributeVal.setManaged(false);
+
         db=new DatabaseHandler();
 
         try {
@@ -76,6 +79,7 @@ public class SearchController {
 
     @FXML
     void setCat(){
+        Attribute.getItems().clear();
         int x=db.getCatId(Category.getValue());
         Attribute.getItems().addAll(db.getAttributes(x));
     }
@@ -180,11 +184,18 @@ public class SearchController {
     List<Res> results = new LinkedList<>();
     int pageNum;
 
+    @FXML
+    void setAtt(){
+        AttributeVal.getItems().clear();
+        AttributeVal.getItems().addAll(db.getAttVal(Attribute.getValue()));
+        AttributeVal.setVisible(true);
+        AttributeVal.setManaged(true);
+    }
 
     @FXML
     void search(){
         try {
-            ResultSet r =db.searchCategories(Category.getValue(),"product_id", (float) minimalRating.getValue());
+            ResultSet r =db.searchCategories(Category.getValue(),"product_id", (float) minimalRating.getValue(),AttributeVal.getValue(),Attribute.getValue());
             results.clear();
             pageNum=0;
             while(r.next()){
@@ -196,6 +207,7 @@ public class SearchController {
         }
         fill();
     }
+
     @FXML
     void addProduct(){
         SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/AddProduct.fxml"));

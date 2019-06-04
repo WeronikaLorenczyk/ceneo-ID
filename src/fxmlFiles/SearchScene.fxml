@@ -14,28 +14,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchController">
+<AnchorPane prefHeight="400.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchController">
    <children>
       <VBox layoutX="25.0" layoutY="77.0" prefHeight="274.0" prefWidth="224.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category" />
             <ChoiceBox fx:id="Category" onAction="#setCat" prefWidth="150.0" />
-
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SortBy" />
-            <ChoiceBox fx:id="SortBy" onAction="#setSort" prefWidth="150.0">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="Lowest Price" />
-                     <String fx:value="Highest Price" />
-                     <String fx:value="Best Rating" />
-                  </FXCollections>
-               </items>
-             </ChoiceBox>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Minimal Rating" />
-            <Button fx:id="CP1" mnemonicParsing="false" onAction="#pc1" text="Compare Prices" />
             <Slider fx:id="minimalRating" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Attribute" />
-            <ChoiceBox fx:id="Attribute" prefWidth="150.0" />
+            <HBox prefHeight="23.0" prefWidth="224.0">
+               <children>
+                  <ChoiceBox fx:id="Attribute" prefHeight="26.0" prefWidth="116.0" onAction="#setAtt"/>
+                  <ChoiceBox fx:id="AttributeVal" prefHeight="26.0" prefWidth="110.0" />
+               </children>
+            </HBox>
             <Button mnemonicParsing="false" onAction="#search" text="Search" />
          </children>
       </VBox>
