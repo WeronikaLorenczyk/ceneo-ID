@@ -1,0 +1,4 @@
+1) plik create.sql puścić lokalnie jako użytkownik postgres o haśle postgres
+2) plik ceneo22.jar umieścić w folderze zawierającym postgresql-42.2.5.jar
+3) uruchomić za pomocą oracle java runtime environment (testowane na wersji 1.8.191) 
+W razie problemów z uruchomieniem prosimy o kontakt
