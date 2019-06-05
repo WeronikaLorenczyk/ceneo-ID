@@ -45,8 +45,6 @@ public class SignUpController {
             e.printStackTrace();
         }
         System.out.println(hashedPassword);
-        //System.out.println(Hasher.validatePassword(passwordT,hashedPassword));
-        //System.out.println(Hasher.validatePassword("b",hashedPassword));
         DatabaseHandler databaseHandler = new DatabaseHandler();
         boolean done=databaseHandler.addUser(login.getText(),hashedPassword,locationn.getText());
         if(done)

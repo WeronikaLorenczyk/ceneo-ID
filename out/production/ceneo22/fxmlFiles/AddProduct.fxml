@@ -7,36 +7,36 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddProductController">
+<AnchorPane styleClass="anchor" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddProductController">
    <children>
       <AnchorPane layoutX="3.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <children>
             <VBox layoutX="102.0" layoutY="76.0" prefHeight="324.0" prefWidth="192.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Product name:" />
+                  <Text styleClass="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Product name:" />
                   <TextField fx:id="name" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
+                  <Text  styleClass="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
                   <TextField fx:id="description" prefHeight="76.0" prefWidth="172.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="category:" />
+                  <Text styleClass="text"  strokeType="OUTSIDE" strokeWidth="0.0" text="category:" />
                   <ChoiceBox fx:id="category" prefWidth="150.0" />
                   <Button fx:id="add" mnemonicParsing="false" onAction="#add" text="add" />
-                  <Text fx:id="wrong" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="incorrect data" wrappingWidth="177.19482421875" />
-                  <Text fx:id="added" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="product added" wrappingWidth="177.19482421875" />
+                  <Text  styleClass="wrongtext" fx:id="wrong" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="incorrect data" wrappingWidth="177.19482421875" />
+                  <Text  styleClass="text" fx:id="added" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="product added" wrappingWidth="177.19482421875" />
                </children>
             </VBox>
             <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Back" />
             <VBox layoutX="347.0" layoutY="76.0" prefHeight="324.0" prefWidth="192.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Attribute:" />
+                  <Text  styleClass="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Attribute:" />
                   <ChoiceBox fx:id="attribute" prefWidth="150.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:" />
+                  <Text  styleClass="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Value:" />
                   <TextField fx:id="attValue" />
                   <Button fx:id="addAttribute" mnemonicParsing="false" onAction="#addAtt" text="add" />
-                  <Text fx:id="wrong1" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="incorrect data" wrappingWidth="177.19482421875" />
-                  <Text fx:id="added1" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="attribute added" wrappingWidth="177.19482421875" />
+                  <Text  styleClass="wrongtext" fx:id="wrong1" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="incorrect data" wrappingWidth="177.19482421875" />
+                  <Text  styleClass="text" fx:id="added1" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="attribute added" wrappingWidth="177.19482421875" />
                </children>
             </VBox>
-            <Text layoutX="137.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add product first and then attributes" />
+            <Text  styleClass="text" layoutX="137.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add product first and then attributes" />
          </children>
       </AnchorPane>
    </children>

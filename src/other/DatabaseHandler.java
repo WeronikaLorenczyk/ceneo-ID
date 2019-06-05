@@ -74,33 +74,12 @@ public class DatabaseHandler {
         }
     }
 
-    //-----------funkcje sprawdzajace poprawnosc danych zeby nam ktos nie zrobil drop table------------------
-
-    public boolean properWord(String word){
-        if(word==null || word.length()==0 || word.indexOf(' ')>=0 || word.indexOf(';')>=0)
-            return false;
-        return true;
-    }
-
-    boolean properText(String text){
-        return text.matches("[ a-zA-Z0-9./,]+");
-    }
-
-    //mozemy ustawic dowolne ograniczenia na haslo
-    boolean properPassword(String password){
-        /*if(password==null || password.length()<6 || password.indexOf(' ')>=0 || password.indexOf(';')>=0)
-            return false;*/
-        return true;
-    }
 
     //-------------funkcje zwracajace id
 
     //zwraca id lub -1 jezeli nie ma danego login+haslo
     public int getUserId(String login, String password) throws InvalidKeySpecException, NoSuchAlgorithmException {
-         if (!properWord(login) || !properPassword(password))
-             return -1;
          try {
-             //ResultSet rs = stmt.executeQuery("SELECT customer_id,password FROM customers WHERE login='" + login + "';");
              getId.setString(1,login);
              ResultSet rs = getId.executeQuery();
              if (rs.next()) {
@@ -118,8 +97,6 @@ public class DatabaseHandler {
      }
 
     public int getShopId(String login, String password) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        if (!properWord(login) || !properPassword(password))
-            return -1;
         try {
 
             getShopId.setString(1,login);
@@ -160,7 +137,6 @@ public class DatabaseHandler {
 
 
      //---------------funkcje dodajace krotki
-//TODO mozna dodawac puste nazwy, wszystkie pola sa wymagane nawet jak w bazie nie sa
     //zwraca czy dodano
     public boolean addUser(String login, String password, String location) throws SQLException {
         if(login.length()==0 || password.length()==0 || location.length()==0)
@@ -228,12 +204,9 @@ public class DatabaseHandler {
     }
 
 
-
-    //zwraca id lub -1 gdy nie moze go dodac
     public boolean addShop (String name,String login,String password, String location){
         if(login.length()==0 || password.length()==0 || location.length()==0||name.length()==0)
             return false;
-        //String sqlTask="INSERT INTO shops (location, name) VALUES ("+location+", "+name+");";
         try {
             newShop.setString(1,name);
             newShop.setString(2,location);
@@ -254,7 +227,6 @@ public class DatabaseHandler {
 
 
     public boolean addShopProduct (int shopId, int productId, float price){
-        //String sqlTask="INSERT INTO shops (location, name) VALUES ("+location+", "+name+");";
         try {
 
             newShopProduct.setInt(1,shopId);
@@ -279,9 +251,7 @@ public class DatabaseHandler {
     }
 
 
-    //zwraca id lub -1 gdy nie moze go dodac
     public void addCustomerShop(int customerId, int shopId, int rating){
-        //String sqlTask="INSERT INTO customers_shops (customer_id, shop_id,rating) VALUES ("+customerId+", "+shopId+", "+rating+");";
         try {
             newShopRating.setInt(1,customerId);
             newShopRating.setInt(2,shopId);
@@ -297,6 +267,9 @@ public class DatabaseHandler {
             e.printStackTrace();
         }
     }
+
+
+    //=----------funkcje zwracajace listy
 
     public List<String> getCategories() throws SQLException {
         ResultSet r=null;

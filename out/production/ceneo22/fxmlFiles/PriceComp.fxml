@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PrceCompController">
+<AnchorPane styleClass="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PrceCompController">
    <children>
       <ScrollPane layoutX="296.0" layoutY="6.0" prefHeight="388.0" prefWidth="290.0">
          <content>
@@ -32,10 +32,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Text fx:id="name1" strokeType="OUTSIDE" strokeWidth="0.0" text="ShopName" />
-                        <Text fx:id="loc1" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="1" />
-                        <Text fx:id="disc1" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Text fx:id="price1" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Text styleClass="text" fx:id="name1" strokeType="OUTSIDE" strokeWidth="0.0" text="ShopName" />
+                        <Text styleClass="text" fx:id="loc1" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="1" />
+                        <Text styleClass="text" fx:id="disc1" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Text styleClass="text" fx:id="price1" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <Line endX="174.2928924560547" startX="-100.0" />
@@ -51,10 +51,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Text fx:id="name2" strokeType="OUTSIDE" strokeWidth="0.0" text="ShopName" />
-                        <Text fx:id="loc2" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="1" />
-                        <Text fx:id="disc2" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Text fx:id="price2" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Text styleClass="text" fx:id="name2" strokeType="OUTSIDE" strokeWidth="0.0" text="ShopName" />
+                        <Text styleClass="text" fx:id="loc2" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="1" />
+                        <Text styleClass="text" fx:id="disc2" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Text styleClass="text" fx:id="price2" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <Line endX="174.2928924560547" startX="-100.0" />
@@ -70,10 +70,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Text fx:id="name3" strokeType="OUTSIDE" strokeWidth="0.0" text="ShopName" />
-                        <Text fx:id="loc3" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="1" />
-                        <Text fx:id="disc3" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Text fx:id="price3" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Text styleClass="text" fx:id="name3" strokeType="OUTSIDE" strokeWidth="0.0" text="ShopName" />
+                        <Text styleClass="text" fx:id="loc3" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="1" />
+                        <Text styleClass="text" fx:id="disc3" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Text styleClass="text" fx:id="price3" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <Line endX="174.2928924560547" startX="-100.0" />
@@ -89,10 +89,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Text fx:id="name4" strokeType="OUTSIDE" strokeWidth="0.0" text="ShopName" />
-                        <Text fx:id="loc4" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="1" />
-                        <Text fx:id="disc4" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Text fx:id="price4" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Text styleClass="text" fx:id="name4" strokeType="OUTSIDE" strokeWidth="0.0" text="ShopName" />
+                        <Text styleClass="text" fx:id="loc4" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="1" />
+                        <Text styleClass="text" fx:id="disc4" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Text styleClass="text" fx:id="price4" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
@@ -100,9 +100,9 @@
          </content>
       </ScrollPane>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="back" />
-      <Text layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
-      <Text fx:id="description" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="addLabel" layoutX="17.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add this product to your shop" />
+      <Text  styleClass="text" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
+      <Text  styleClass="text" fx:id="description" layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text  styleClass="text" fx:id="addLabel" layoutX="17.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add this product to your shop" />
       <Button fx:id="add" layoutX="17.0" layoutY="322.0" mnemonicParsing="false" onAction="#add" text="Add" />
       <ChoiceBox fx:id="rating" layoutX="17.0" layoutY="322.0" onAction="#addRating" prefWidth="150.0">
       <items>
@@ -115,8 +115,8 @@
          </FXCollections>
       </items>
    </ChoiceBox>
-      <Text fx:id="setPrice" layoutX="22.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set price:" />
+      <Text styleClass="text"  fx:id="setPrice" layoutX="22.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set price:" />
       <TextField fx:id="price" layoutX="17.0" layoutY="251.0" promptText="1.00" />
-      <Text fx:id="wrong" fill="#f50101" layoutX="196.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wrong price" />
+      <Text  styleClass="wrongtext" fx:id="wrong" fill="#f50101" layoutX="196.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wrong price" />
    </children>
 </AnchorPane>

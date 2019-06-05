@@ -1,5 +1,4 @@
 package sceneManagers;
-import controllers.LoginController;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,11 +26,16 @@ public class FXMLScene extends SceneController implements Initializable {
                 c = getClass().getResource(fxml);
                 System.out.println(c);
                 root = FXMLLoader.load(c);
+                root.getStylesheets().add("fxmlFiles/buttons.css");
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
             ret= new Scene(root, 800, 600);
+            System.out.println("ladowane css");
+           // String css = this.getClass().getResource("../other/buttons.css").toExternalForm();
+            //ret.getStylesheets().add(css);
+          // ret.getStylesheets().add("fxmlFiles/buttons.css");
         }
         return ret;
     }
