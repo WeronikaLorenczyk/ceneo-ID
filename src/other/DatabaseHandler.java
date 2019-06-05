@@ -35,7 +35,7 @@ public class DatabaseHandler {
         try {
             getId=conn.prepareStatement("SELECT customer_id,password FROM customers WHERE login=?");
             getShopId=conn.prepareStatement("SELECT shop_id,password FROM shops WHERE login=?");
-            newUser=conn.prepareStatement("INSERT INTO customers (login, password, age, location) VALUES (?,?,121,?);");
+            newUser=conn.prepareStatement("INSERT INTO customers (login, password, age, location) VALUES (?,?,?,?);");
             newShopRating =conn.prepareStatement("INSERT INTO product_customer (product_id, customer_id,rating) VALUES (?,?,?);");
             newShop=conn.prepareStatement("INSERT INTO shops (name,location,login,password) VALUES (?,?,?,?);");
             search=conn.prepareStatement("SELECT name, product_id, item_rating(product_id) from products p where is_of_cat((select name from categories c where c.category_id=p.category_id),?) and coalesce(item_rating(product_id),0)>=? " +
@@ -138,12 +138,13 @@ public class DatabaseHandler {
 
      //---------------funkcje dodajace krotki
     //zwraca czy dodano
-    public boolean addUser(String login, String password, String location) throws SQLException {
+    public boolean addUser(String login, String password, String location, boolean over18) throws SQLException {
         if(login.length()==0 || password.length()==0 || location.length()==0)
             return false;
          newUser.setString(1,login);
          newUser.setString(2,password);
-         newUser.setString(3,location);
+         newUser.setInt(3,(over18 ? 18 : 0));
+         newUser.setString(4,location);
          try {
              newUser.executeUpdate();
          } catch (SQLException e) {
@@ -274,7 +275,7 @@ public class DatabaseHandler {
     public List<String> getCategories() throws SQLException {
         ResultSet r=null;
         try {
-             r = stmt.executeQuery("SELECT name from categories");
+             r = stmt.executeQuery("SELECT name from categories" );
         } catch (SQLException e) {
             e.printStackTrace();
         }

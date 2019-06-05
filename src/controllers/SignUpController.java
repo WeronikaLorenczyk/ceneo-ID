@@ -46,7 +46,7 @@ public class SignUpController {
         }
         System.out.println(hashedPassword);
         DatabaseHandler databaseHandler = new DatabaseHandler();
-        boolean done=databaseHandler.addUser(login.getText(),hashedPassword,locationn.getText());
+        boolean done=databaseHandler.addUser(login.getText(),hashedPassword,locationn.getText(),age.isSelected());
         if(done)
             back();
         else{

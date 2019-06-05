@@ -210,11 +210,11 @@ public class SearchController {
 
     @FXML
     void addProduct(){
-        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/AddProduct.fxml"));
+        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "/fxmlFiles/AddProduct.fxml"));
     }
 
     @FXML
     void signout(){
-        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/Login.fxml"));
+        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "/fxmlFiles/Login.fxml"));
     }
 }

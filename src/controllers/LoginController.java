@@ -68,13 +68,13 @@ public class LoginController {
             System.out.println(userId);
             SceneHandler.data.userId=userId;
             SceneHandler.data.ifShop=false;
-            SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/SearchScene.fxml"));
+            SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "/fxmlFiles/SearchScene.fxml"));
         }
     }
 
     @FXML
     void signUp(){
-        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/SignUp.fxml"));
+        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "/fxmlFiles/SignUp.fxml"));
     }
 
 
@@ -102,12 +102,12 @@ public class LoginController {
             System.out.println("logged in!");
             SceneHandler.data.userId=shopId;
             SceneHandler.data.ifShop=true;
-            SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/SearchScene.fxml"));
+            SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "/fxmlFiles/SearchScene.fxml"));
         }
     }
 
     @FXML
     void signUpShop(){
-        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/SingUpShop.fxml"));
+        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "/fxmlFiles/SingUpShop.fxml"));
     }
 }

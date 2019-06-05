@@ -6,8 +6,6 @@ import sceneManagers.SceneHandler;
 
 public class Ceneo extends Application {
 
-
-
     public static void main(String[] args) {
 
         launch(args);
@@ -18,7 +16,7 @@ public class Ceneo extends Application {
         primaryStage.setTitle("Ceneo");
         SceneHandler sh=new SceneHandler(primaryStage);
        //sh.changeScene(new LoginScene(null,sh));
-        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "../fxmlFiles/Login.fxml"));
+        SceneHandler.current.changeScene(new FXMLScene(SceneHandler.curr, SceneHandler.current, "/fxmlFiles/Login.fxml"));
     }
 
 
