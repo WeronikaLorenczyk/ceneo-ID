@@ -65,9 +65,9 @@ CREATE TABLE shops (
 
 
 INSERT INTO shops VALUES
-(nextval('seq_shop_id'),'Krakow','sklep a','a','a'),
-(nextval('seq_shop_id'),'Krakow','sklep b','b','b'),
-(nextval('seq_shop_id'),'Warszawa','sklep c','c','c');
+(nextval('seq_shop_id'),'Krakow','sklep a','a','1000:1caee4cda2c89f6b595a95a4a6a63e57:afdb353eee45b9a97db8a1a2950dbdcf04f0472ced2af18a88b8b46329907731e8004d589a19b60d87f5dbd19a564101b7bc95210c1247dc47f8820539c597dd'),
+(nextval('seq_shop_id'),'Krakow','sklep b','b','1000:6be0e9246d78f226b6dbfbf8653bf5cf:1a81c8a1effa7d8b83b7e45e1add66b7cea3110907480beeb5d0f794ff8993fa359253c99e1b14d2b771f89cb7b1c50d4f168b41a1afd1a3999c4d677fe3ce9e'),
+(nextval('seq_shop_id'),'Warszawa','sklep c','c','1000:489b2931332e2b0baeee8b60ae5f5a0e:689da8b0dba5eb96bc1b490b194681a5e7803f13dd68d197da482a7c059e985a4eefb186845eb975a8d01b4a5e0bec49f30ce4294d9c11c8ca3ee372057d2468');
 
 
 CREATE TABLE attributes ( 
@@ -84,7 +84,7 @@ CREATE SEQUENCE seq_attribute_id INCREMENT BY 1 START WITH 1;
 INSERT INTO attributes VALUES
 (nextval('seq_attribute_id'), 'material',1, null),
 (nextval('seq_attribute_id'), 'kolor',1, null),
-(nextval('seq_attribute_id'), 'ile drzwi',3, null),
+(nextval('seq_attribute_id'), 'ile drzwi',4, null),
 (nextval('seq_attribute_id'), 'pojemnosc',7, 'ml');
 
 CREATE TABLE customers_shops ( 

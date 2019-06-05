@@ -23,7 +23,7 @@ public class SearchResult {
         compareP.setVisible(true);
         name.setText(n);
         attribute.setText(a);
-        rating.setText(Float.toString(r));
+        rating.setText("rating: "+Float.toString(r));
     }
 
     public void clear(){

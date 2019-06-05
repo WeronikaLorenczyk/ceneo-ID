@@ -13,13 +13,15 @@ import java.sql.SQLException;
 public class AddProductController {
 
     @FXML
-    ChoiceBox<String> category;
+    ChoiceBox<String> category,attribute;
     @FXML
-    TextField name,description;
+    TextField name,description,attValue;
     @FXML
-    Button back,add;
+    Button back,add,addAttribute;
     @FXML
-    Text wrong,added;
+    Text wrong,added,wrong1,added1;
+
+    int productId=-1,categoryId;
 
     DatabaseHandler db;
     public void initialize(){
@@ -34,6 +36,12 @@ public class AddProductController {
         wrong.setVisible(false);
         added.setManaged(false);
         added.setVisible(false);
+
+        wrong1.setManaged(false);
+        wrong1.setVisible(false);
+        added1.setManaged(false);
+        added1.setVisible(false);
+
     }
 
     @FXML
@@ -44,8 +52,10 @@ public class AddProductController {
         added.setManaged(false);
         added.setVisible(false);
 
-        boolean done=db.addProduct(name.getText(),description.getText(),category.getValue());
-        if(done)
+        int done=db.addProduct(name.getText(),description.getText(),category.getValue());
+        productId=done;
+        categoryId=db.getCatId(category.getValue());
+        if(done != -1)
             pass();
         else{
             didntPass();
@@ -54,11 +64,33 @@ public class AddProductController {
     void didntPass(){
         wrong.setManaged(true);
         wrong.setVisible(true);
+        productId=-1;
+        attribute.getItems().remove(0,attribute.getItems().size());
     }
 
     void pass(){
         added.setManaged(true);
         added.setVisible(true);
+        attribute.getItems().addAll(db.getAttributes(categoryId));
+
+    }
+
+    @FXML
+    void addAtt(){
+        wrong1.setManaged(false);
+        wrong1.setVisible(false);
+        added1.setManaged(false);
+        added1.setVisible(false);
+
+        boolean done=db.addAttribute(attribute.getValue(),attValue.getText(),productId);
+        if(done){
+            added1.setManaged(true);
+            added1.setVisible(true);
+        }
+        else{
+            wrong1.setManaged(true);
+            wrong1.setVisible(true);
+        }
     }
 
 

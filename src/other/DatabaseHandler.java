@@ -22,6 +22,7 @@ public class DatabaseHandler {
     static PreparedStatement search;
     static PreparedStatement newProduct;
     static PreparedStatement newShopProduct;
+    static PreparedStatement newAttribute;
 
     public static Connection connect() {
         Connection conn = null;
@@ -39,8 +40,9 @@ public class DatabaseHandler {
             newShop=conn.prepareStatement("INSERT INTO shops (name,location,login,password) VALUES (?,?,?,?);");
             search=conn.prepareStatement("SELECT name, product_id, item_rating(product_id) from products p where is_of_cat((select name from categories c where c.category_id=p.category_id),?) and coalesce(item_rating(product_id),0)>=? " +
                     " and ? in (select value from attribute_product where product_id=p.product_id and attribute_id=(select attribute_id from attributes where name=?)) order by ?;");
-            newProduct=conn.prepareStatement("INSERT INTO products(name,description,category_id) VALUES (?,?,?);");
+            newProduct=conn.prepareStatement("INSERT INTO products(name,description,category_id) VALUES (?,?,?) RETURNING product_id;");
             newShopProduct=conn.prepareStatement("INSERT INTO shop_product (shop_id, product_id, price) VALUES (?,?,?);");
+            newAttribute=conn.prepareStatement("INSERT INTO attribute_product (product_id, attribute_id, value) VALUES (?, ?, ?);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -150,12 +152,18 @@ public class DatabaseHandler {
         return x;
     }
 
+    int getAttId(String att) throws SQLException {
+        ResultSet r=stmt.executeQuery("SELECT attribute_id FROM attributes where name='"+att+"';");
+        r.next();
+        return r.getInt(1);
+    }
+
 
      //---------------funkcje dodajace krotki
 //TODO mozna dodawac puste nazwy, wszystkie pola sa wymagane nawet jak w bazie nie sa
     //zwraca czy dodano
     public boolean addUser(String login, String password, String location) throws SQLException {
-        if(login==null || password==null || location==null)
+        if(login.length()==0 || password.length()==0 || location.length()==0)
             return false;
          newUser.setString(1,login);
          newUser.setString(2,password);
@@ -170,18 +178,22 @@ public class DatabaseHandler {
      }
 
     //zwraca id lub -1 gdy nie moze go dodac
-    public  boolean addProduct(String name, String description, String category) throws SQLException {
+    public  int addProduct(String name, String description, String category) throws SQLException {
+        if(name.length()==0 ||  category.length()==0)
+            return -1;
 
          newProduct.setString(1,name);
         newProduct.setString(2,description);
         newProduct.setInt(3,getCatId(category));
         try {
-            newProduct.executeUpdate();
+            ResultSet r=newProduct.executeQuery();
+            r.next();
+            return r.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
-        return true;
+
      }
 
 
@@ -200,9 +212,27 @@ public class DatabaseHandler {
     }
 
 
+    public boolean addAttribute(String att, String value, int productId){
+        if(value.length()==0 || att.length()==0)
+            return false;
+        try {
+            newAttribute.setInt(1,productId);
+            newAttribute.setInt(2,getAttId(att));
+            newAttribute.setString(3,value);
+            newAttribute.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
 
     //zwraca id lub -1 gdy nie moze go dodac
     public boolean addShop (String name,String login,String password, String location){
+        if(login.length()==0 || password.length()==0 || location.length()==0||name.length()==0)
+            return false;
         //String sqlTask="INSERT INTO shops (location, name) VALUES ("+location+", "+name+");";
         try {
             newShop.setString(1,name);
